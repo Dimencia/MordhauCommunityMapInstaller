@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mordhau Map Installer", "Mordhau Map Installer\Mordhau Map Installer.csproj", "{DB260630-1C56-4651-B2B6-7AB82F32C59D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB260630-1C56-4651-B2B6-7AB82F32C59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB260630-1C56-4651-B2B6-7AB82F32C59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB260630-1C56-4651-B2B6-7AB82F32C59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB260630-1C56-4651-B2B6-7AB82F32C59D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {24E2340D-1A6D-4CEA-AC36-9AAEE5890139}
+	EndGlobalSection
+EndGlobal
