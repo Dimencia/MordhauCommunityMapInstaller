@@ -60,6 +60,12 @@ namespace Mordhau_Map_Installer
                     MordhauPath = reader.ReadLine();
                 Log("Mordhau Path read from configuration file");
             }
+            else
+            {
+                // If no file, show help form
+                HelpForm help = new HelpForm();
+                help.ShowDialog();
+            }
             // Even if we loaded one, make sure it's right, if not loaded this will also be true
             if (!MordhauPath.ToLower().Contains(@"steamapps\common\mordhau\mordhau\content\mordhau\maps\") || !Directory.Exists(MordhauPath))
             {
@@ -178,7 +184,7 @@ namespace Mordhau_Map_Installer
         {
             if (map != null)
             {
-                MapNameLabel.Text = map.name;
+                MapNameLabel.Text = map.folderName;
                 MapDescriptionLabel.Links.Clear();
                 MapDescriptionLabel.Text = map.description;
 
@@ -503,6 +509,12 @@ namespace Mordhau_Map_Installer
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
 
+        }
+
+        private void basicHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HelpForm help = new HelpForm();
+            help.ShowDialog();
         }
     }
 }
