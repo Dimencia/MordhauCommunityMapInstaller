@@ -201,8 +201,8 @@ namespace Mordhau_Map_Installer
                     if (end == -1)
                         end = desc.Length;
                     int fakeend = end + beginning; // This goes into linkarea
-                    lastEnd = fakeend + 1;
-                    string link = map.description.Substring(beginning, (fakeend - beginning));
+                    lastEnd = fakeend;
+                    string link = map.description.Substring(beginning, end);
                     //Log("Adding link region: " + beginning + ", " + fakeend);
                     try
                     {
@@ -212,7 +212,7 @@ namespace Mordhau_Map_Installer
                     {
                     }
                     // And we preserved end so we can now truncate to ignore it in next search
-                    desc = desc.Substring(end + 1);
+                    desc = map.description.Substring(fakeend);
                 }
                 MapAuthorsLabel.Text = map.authors;
                 MapVersionLabel.Text = map.version;

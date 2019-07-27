@@ -36,6 +36,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setMordhauDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.basicHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.AvailableMapsBox = new System.Windows.Forms.CheckedListBox();
@@ -73,7 +74,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.basicHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -137,10 +137,17 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // basicHelpToolStripMenuItem
+            // 
+            this.basicHelpToolStripMenuItem.Name = "basicHelpToolStripMenuItem";
+            this.basicHelpToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.basicHelpToolStripMenuItem.Text = "Basic Help";
+            this.basicHelpToolStripMenuItem.Click += new System.EventHandler(this.basicHelpToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -204,13 +211,14 @@
             this.InstallButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.InstallButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.InstallButton.Enabled = false;
             this.InstallButton.Location = new System.Drawing.Point(15, 239);
             this.InstallButton.Name = "InstallButton";
             this.InstallButton.Size = new System.Drawing.Size(312, 21);
             this.InstallButton.TabIndex = 2;
             this.InstallButton.Text = "Install";
-            this.InstallButton.UseVisualStyleBackColor = true;
+            this.InstallButton.UseVisualStyleBackColor = false;
             this.InstallButton.Click += new System.EventHandler(this.InstallButton_Click);
             // 
             // panel2
@@ -262,13 +270,14 @@
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.RemoveButton.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.RemoveButton.Enabled = false;
             this.RemoveButton.Location = new System.Drawing.Point(17, 239);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(311, 21);
             this.RemoveButton.TabIndex = 4;
             this.RemoveButton.Text = "Remove";
-            this.RemoveButton.UseVisualStyleBackColor = true;
+            this.RemoveButton.UseVisualStyleBackColor = false;
             this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
             // label2
@@ -428,11 +437,12 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.versionlabel,
             this.labelspacer,
             this.statusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 501);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 491);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.statusStrip1.Size = new System.Drawing.Size(719, 22);
@@ -470,7 +480,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Impact", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.label3.ForeColor = System.Drawing.SystemColors.Control;
             this.label3.Location = new System.Drawing.Point(124, 14);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(484, 39);
@@ -488,18 +498,12 @@
             this.panel3.Size = new System.Drawing.Size(697, 63);
             this.panel3.TabIndex = 8;
             // 
-            // basicHelpToolStripMenuItem
-            // 
-            this.basicHelpToolStripMenuItem.Name = "basicHelpToolStripMenuItem";
-            this.basicHelpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.basicHelpToolStripMenuItem.Text = "Basic Help";
-            this.basicHelpToolStripMenuItem.Click += new System.EventHandler(this.basicHelpToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 523);
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ClientSize = new System.Drawing.Size(719, 513);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel5);
