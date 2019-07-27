@@ -26,5 +26,10 @@ namespace Mordhau_Map_Installer
             if (target != null && target.ToLower().StartsWith("http"))
                 System.Diagnostics.Process.Start(target);
         }
+
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

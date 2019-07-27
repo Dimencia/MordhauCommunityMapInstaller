@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -64,7 +65,7 @@ namespace Mordhau_Map_Installer
             {
                 // If no file, show help form
                 HelpForm help = new HelpForm();
-                help.ShowDialog();
+                help.Show(this);
             }
             // Even if we loaded one, make sure it's right, if not loaded this will also be true
             if (!MordhauPath.ToLower().Contains(@"steamapps\common\mordhau\mordhau\content\mordhau\maps\") || !Directory.Exists(MordhauPath))
@@ -188,32 +189,48 @@ namespace Mordhau_Map_Installer
                 MapDescriptionLabel.Links.Clear();
                 MapDescriptionLabel.Text = map.description;
 
-
+                // If this gives any more trouble, rewrite it with regex
                 string desc = map.description;
+                Regex linkRegex = new Regex(@"(?i)http(s?):\/\/(\S)*");
+                MatchCollection matches = linkRegex.Matches(map.description);
+                foreach (Match m in matches)
+                {
+                    int startIndex = m.Index;
+                    int length = m.Length;
+                    string link = m.Value;
+                    MapDescriptionLabel.Links.Add(startIndex, length, link);
+                }
+                // This old way was such cancer
+                /*
                 int lastEnd = 0;
                 while (desc.ToLower().Contains("http"))
                 {
-                    // Find the http, and end of it, and mark beginning and end with linkarea
+                    // Find the http, its length, and the value of it
                     int beginning = desc.ToLower().IndexOf("http");
-                    desc = desc.Substring(beginning);
-                    beginning += lastEnd; // To account for last movement
-                    int end = desc.IndexOf(" ");
-                    if (end == -1)
+                    desc = desc.Substring(beginning); // Cut out everything before our http
+                    beginning += lastEnd; // To account for everything we cut from the main string
+                    int end = desc.IndexOf(" "); // Find the next space after our link
+                    if (end == -1) // If there's not a space, put marker at the end of the string
                         end = desc.Length;
-                    int fakeend = end + beginning; // This goes into linkarea
-                    lastEnd = fakeend;
-                    string link = map.description.Substring(beginning, end);
+                    end += beginning; // This is the end relative to map.description
+                    lastEnd = end; // So that next iteration we cut off this link
+                    // Note that beginning and end are now in reference to map.description
+                    // And make no sense in regards to desc
+                    string link = map.description.Substring(beginning, end - beginning);
                     //Log("Adding link region: " + beginning + ", " + fakeend);
                     try
                     {
-                        MapDescriptionLabel.Links.Add(beginning, fakeend - beginning, link);
+                        MapDescriptionLabel.Links.Add(beginning, end - beginning, link);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Log(e.Message);
+                        Log(e.StackTrace);
+                        Log("Failed when creating link: " + beginning + ", " + (end - beginning) + " - " + link);
                     }
-                    // And we preserved end so we can now truncate to ignore it in next search
-                    desc = map.description.Substring(fakeend);
+                    desc = map.description.Substring(end);
                 }
+                */
                 MapAuthorsLabel.Text = map.authors;
                 MapVersionLabel.Text = map.version;
                 MapReleaseDateLabel.Text = map.releaseDate.ToLongDateString();
@@ -230,12 +247,13 @@ namespace Mordhau_Map_Installer
             // This access token has absolutely no permissions and just lets us bypass rate limits.  Good luck using it for anything
             client.Credentials = new Credentials("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
             // Set credentials here, otherwise harsh rate limits apply.
-
+            Log("Getting all contents");
             var contents = await client.Repository.Content.GetAllContents(repoOwner, repoName, path);
             var results = contents.Select(content => content.Name);
-
+            
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\MordhauMapInstaller" + @"\Info\"))
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\MordhauMapInstaller" + @"\Info\");
+            Log("Checking resulting files");
             foreach (var r in results)
             {
                 // Anything ending in .info.txt
@@ -275,6 +293,8 @@ namespace Mordhau_Map_Installer
                     }
                 }
             }
+
+            Log("Updating available maps");
             UpdateAvailableMaps();
             Update();
             Log("Ready");
@@ -282,9 +302,11 @@ namespace Mordhau_Map_Installer
 
         private void UpdateAvailableMaps()
         {
+            Log(Map.maps.Count + " maps being updated");
             AvailableMapsBox.Items.Clear();
             AvailableMapsBox.DataSource = Map.maps;
             AvailableMapsBox.DisplayMember = "name";
+            Log(Map.maps.Count + " maps updated");
         }
 
         private void ShowMordhauPathDialog()
@@ -321,15 +343,27 @@ namespace Mordhau_Map_Installer
 
         private string GetSteamPath()
         {
+            // Check 64 bit registry first
+            /*
+            RegistryKey localKey =
+                RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine,
+                    RegistryView.Registry32);
+            RegistryKey sqlServerKey = localKey.OpenSubKey(
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 629760");
+            string steamPath = (string)sqlServerKey.GetValue("InstallLocation");
+            */ 
+            // The above returns null for the localkey...
             string steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 629760", "InstallLocation", "");
-            if (steamPath == null)
-                steamPath = "";
-            Log("Uninstall path: " + steamPath);
-            if (steamPath.Equals(""))
+            if (steamPath != null)
+                Log("Successfully read from Mordhau InstallLocation");
+            if (string.IsNullOrEmpty(steamPath))
                 steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", "");
-            if (steamPath.Equals(""))
+            if (string.IsNullOrEmpty(steamPath))
                 steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath",
                     steamPath);
+
+            if (steamPath == null)
+                steamPath = "";
             return steamPath;
         }
 
@@ -514,7 +548,7 @@ namespace Mordhau_Map_Installer
         private void basicHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HelpForm help = new HelpForm();
-            help.ShowDialog();
+            help.Show();
         }
     }
 }

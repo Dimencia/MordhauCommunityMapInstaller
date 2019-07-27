@@ -310,7 +310,7 @@
             this.panel5.Controls.Add(this.label4);
             this.panel5.Location = new System.Drawing.Point(11, 379);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(698, 110);
+            this.panel5.Size = new System.Drawing.Size(698, 127);
             this.panel5.TabIndex = 4;
             // 
             // MapDescriptionLabel
@@ -442,7 +442,7 @@
             this.versionlabel,
             this.labelspacer,
             this.statusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 491);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 509);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.statusStrip1.Size = new System.Drawing.Size(719, 22);
@@ -503,7 +503,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(719, 513);
+            this.ClientSize = new System.Drawing.Size(719, 531);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel5);
