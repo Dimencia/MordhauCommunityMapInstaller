@@ -19,7 +19,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.22";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.23";
 
         public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -31,9 +31,7 @@ namespace Mordhau_Map_Installer
 
         private readonly Image m_DefaultThumbnail;
         private string m_MordhauPath = string.Empty;
-        public static
-            
-            bool checkForUpdates = true;
+        public static bool checkForUpdates = true;
 
         public Form1()
         {
@@ -181,18 +179,9 @@ namespace Mordhau_Map_Installer
                         Log("Detected version " + version + " vs current " + VERSION);
                         if (!version.Equals(VERSION))
                         {
-                            // Find change note... First, truncate to what we just found
-                            page = page.Substring(m.Index);
-                            reg = new Regex("title=\\\"([^\\\"]*)");
-                            Match changeMatch = reg.Match(page);
-                            if (changeMatch.Success)
-                            {
-                                UpdateAvailable updateForm = new UpdateAvailable(version, changeMatch.Groups[1].Value);
-                                updateForm.Show(this);
-                                return;
-                            }
-                            else
-                                Log("Error displaying - Update is available");
+                            UpdateAvailable updateForm = new UpdateAvailable(version);
+                            updateForm.Show(this);
+                            return;
                         }
                         else
                             Log("No updates found");
@@ -426,7 +415,7 @@ namespace Mordhau_Map_Installer
         {
             Map.installed = new List<Map>();
             // Find all files ending with .info.txt in mordhaupath
-            foreach (string f in Directory.GetFiles(m_MordhauPath, "*.info.txt"))
+            foreach (string f in Directory.GetFiles(m_MordhauPath, "*.info.txt",SearchOption.AllDirectories))
             {
                 using (var reader = new StreamReader(f))
                 {
@@ -498,8 +487,8 @@ namespace Mordhau_Map_Installer
                 Log($"Deleting {m.name}");
                 File.Delete($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\{m.folderName}.zip");
                 // Copy over the info file
-                File.Copy($@"{s_InfoFiles}\InfoFiles-master\{m.folderName}.info.txt",
-                    $"{m_MordhauPath}{m.folderName}.info.txt", true);
+                File.Copy($@"{s_InfoFiles}InfoFiles-master\{m.folderName}.info.txt",
+                    $@"{m_MordhauPath}{m.folderName}\{m.folderName}.info.txt", true);
                 Log($"Successfully installed {m.name}");
             }
             catch (Exception e)
@@ -523,7 +512,10 @@ namespace Mordhau_Map_Installer
                 }
                 try
                 {
-                    File.Delete($"{m_MordhauPath}{m.folderName}.info.txt");
+                    foreach (string f in Directory.GetFiles(m_MordhauPath, $@"{m.folderName}.info.txt", SearchOption.AllDirectories))
+                    {
+                        File.Delete(f);
+                    }
                 }
                 catch (Exception ex)
                 {

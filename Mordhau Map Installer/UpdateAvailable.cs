@@ -16,15 +16,15 @@ namespace Mordhau_Map_Installer
     {
         private bool disableUpdates = false;
 
-        public UpdateAvailable(string detectedVersion, string changeSummary)
+        public UpdateAvailable(string detectedVersion)
         {
             InitializeComponent();
             currentVersionLabel.Text = Form1.VERSION;
             newVersionLabel.Text = detectedVersion;
-            summaryLabel.Text = changeSummary;
             dontShowAgainBox.Checked = !Form1.checkForUpdates;
             githubLink.Links.Clear();
             githubLink.Links.Add(6, 4, Form1.s_ProjectGithub);
+            githubLink.Text += $"MCMI{detectedVersion}.exe";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -36,11 +36,13 @@ namespace Mordhau_Map_Installer
                 {
                     if(!File.Exists(Form1.s_DisableUpdatesFile))
                         File.Create(Form1.s_DisableUpdatesFile);
+                    Form1.checkForUpdates = false;
                 }
                 else
                 {
                     if(File.Exists(Form1.s_DisableUpdatesFile))
                         File.Delete(Form1.s_DisableUpdatesFile);
+                    Form1.checkForUpdates = true;
                 }
             }
             catch (Exception ex)
@@ -64,6 +66,12 @@ namespace Mordhau_Map_Installer
         private void dontShowAgainBox_CheckedChanged(object sender, EventArgs e)
         {
             disableUpdates = dontShowAgainBox.Checked;
+        }
+
+        private void githubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (e.Link.LinkData is string target && target.ToLower().StartsWith("http"))
+                System.Diagnostics.Process.Start(target);
         }
     }
 }

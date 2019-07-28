@@ -81,11 +81,12 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(75, 87);
+            this.label4.Location = new System.Drawing.Point(4, 87);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(406, 13);
+            this.label4.Size = new System.Drawing.Size(563, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "To play installed maps locally, open the Mordhau console and type \"open mapname\"";
+            this.label4.Text = "To play installed maps locally, open the Mordhau console and type \"open MapName\" " +
+    "using the MapName from details";
             // 
             // label5
             // 
@@ -120,7 +121,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.OKButton;
-            this.ClientSize = new System.Drawing.Size(566, 180);
+            this.ClientSize = new System.Drawing.Size(567, 180);
             this.ControlBox = false;
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label4);
