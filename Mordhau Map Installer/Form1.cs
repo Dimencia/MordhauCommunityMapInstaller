@@ -22,6 +22,7 @@ namespace Mordhau_Map_Installer
     {
         private string MordhauPath = "";
         private Image defaultThumbnail;
+        private int requestsLeft = 6000;
 
         public Form1()
         {
@@ -39,6 +40,10 @@ namespace Mordhau_Map_Installer
             if (ApplicationDeployment.IsNetworkDeployed)
             {
                 version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4);
+            }
+            else
+            {
+                version = "1.0.0.21"; // Manually increment this I guess... 
             }
 
             Log("Version " + version);
@@ -174,7 +179,8 @@ namespace Mordhau_Map_Installer
                 RemoveButton.Enabled = true;
             else
                 RemoveButton.Enabled = false;
-
+            if(requestsLeft <= 0)
+                Log("No requests left for community account!  Swapping to unauthenticated.  Only 60 requests per user");
             if (!MordhauPath.ToLower().Contains(@"steamapps\common\mordhau\mordhau\content\mordhau\maps"))
             {
                 RemoveButton.Enabled = false;
@@ -255,12 +261,18 @@ namespace Mordhau_Map_Installer
             Map.maps = new List<Map>();
             var client = new GitHubClient(new ProductHeaderValue("Github-API-Test"));
             // This access token has absolutely no permissions and just lets us bypass rate limits.  Good luck using it for anything
-            client.Credentials = new Credentials("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
+            
+            if(requestsLeft > 0)
+                client.Credentials = new Credentials("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
             // Set credentials here, otherwise harsh rate limits apply.
             Log("Getting all contents");
             var contents = await client.Repository.Content.GetAllContents(repoOwner, repoName, path);
             var results = contents.Select(content => content.Name);
-            
+
+            var apiInfo = client.GetLastApiInfo();
+            requestsLeft = (apiInfo?.RateLimit?.Remaining??6000);
+            Log(requestsLeft + " requests left this hour");
+
             if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\MordhauMapInstaller" + @"\Info\"))
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\MordhauMapInstaller" + @"\Info\");
             Log("Checking resulting files");
@@ -407,10 +419,6 @@ namespace Mordhau_Map_Installer
 
         private void InstallButton_Click(object sender, EventArgs e)
         {
-            var client = new GitHubClient(new ProductHeaderValue("Github-API-Test"));
-            client.Credentials = new Credentials("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
-            // Set credentials here, otherwise harsh rate limits apply.
-
             // Download and unzip each map into MordhauPath
             // Then delete the zip to keep it clean
             foreach (Map m in AvailableMapsBox.CheckedItems)
@@ -477,10 +485,13 @@ namespace Mordhau_Map_Installer
                 // This fucking api can't handle downloading zip files so I have to do it by hand and hope we don't ratelimit
                 using (WebClient wc = new WebClient())
                 {
-                    wc.Credentials = new NetworkCredential("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
+                    Log(requestsLeft + " requests left this hour");
+                    if(requestsLeft > 0)
+                        wc.Credentials = new NetworkCredential("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
                     wc.DownloadFile(
                         @"https://github.com/MordhauMappingModding/MapFiles/blob/master/" + m.folderName +
                         ".zip?raw=true", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\MordhauMapInstaller" + @"\Info\" + m.folderName + ".zip");
+                    requestsLeft--;
                 }
 
                 // Check if folder already exists and delete if it does
