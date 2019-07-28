@@ -18,7 +18,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.24";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.0";
 
         public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -488,7 +488,7 @@ namespace Mordhau_Map_Installer
                 // Copy over the info file
                 File.Copy($@"{s_InfoFiles}InfoFiles-master\{m.folderName}.info.txt",
                     $@"{m_MordhauPath}{m.folderName}\{m.folderName}.info.txt", true);
-                Log($"Successfully installed {m.name}");
+                Log($"Successfully installed {m.name} - You may need to restart Mordhau");
             }
             catch (Exception e)
             {
