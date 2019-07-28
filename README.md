@@ -17,7 +17,7 @@ Preview image minimum size: 698, 146
 Note that preview images can, and should be, bigger than this - they will be centered and cropped
 
 
-### Info file format:
+### Info file format
 
 Filename: FolderName.info.txt
 
