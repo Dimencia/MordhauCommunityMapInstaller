@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Deployment.Application;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -20,6 +21,7 @@ namespace Mordhau_Map_Installer
     public partial class Form1 : Form
     {
         private string MordhauPath = "";
+        private Image defaultThumbnail;
 
         public Form1()
         {
@@ -31,7 +33,7 @@ namespace Mordhau_Map_Installer
             selectNoneToolStripMenuItem.Click += SelectNoneToolStripMenuItemOnClick;
             selectAllToolStripMenuItem1.Click += SelectAllToolStripMenuItem1OnClick;
             selectNoneToolStripMenuItem1.Click += SelectNoneToolStripMenuItem1OnClick;
-
+            defaultThumbnail = thumbnailBox.Image;
 
             string version = "";
             if (ApplicationDeployment.IsNetworkDeployed)
@@ -73,7 +75,7 @@ namespace Mordhau_Map_Installer
                 Log("Trying to find Mordhau Directory...");
                 string steamPath = GetSteamPath();
                 Log("Steam Path: " + steamPath); // If steampath contains mordhau, it's the straightup mordhau path
-                if (steamPath.Equals("") || (!Directory.Exists(steamPath + @"\steamapps\common\mordhau") && !steamPath.ToLower().Contains("mordhau")))
+                if (steamPath.Equals("") || (!Directory.Exists(steamPath + @"\steamapps\common\mordhau") && !steamPath.ToLower().Contains("mordhau")) || (!Directory.Exists(steamPath)))
                 {
                     Log("Mordhau not found");
                     // Open configuration menu to have them browse to it
@@ -84,11 +86,11 @@ namespace Mordhau_Map_Installer
                     }
                     Log("Mordhau Path: " + MordhauPath);
                 }
-                else
+                else // If we're here, the directory exists and we have one
                 {
                     if (steamPath.ToLower().Contains("mordhau")) // Mordhau directory, just add the other stuff
                         MordhauPath = steamPath + @"\mordhau\content\mordhau\maps\";
-                    else
+                    else // If steamPath isn't the mordhau directory, and isn't empty and exists, it's the base steam path
                         MordhauPath = steamPath + @"\steamapps\common\mordhau\mordhau\content\mordhau\maps\";
                     Log("Mordhau Path: " + MordhauPath);
                 }
@@ -236,6 +238,14 @@ namespace Mordhau_Map_Installer
                 MapReleaseDateLabel.Text = map.releaseDate.ToLongDateString();
                 MapSizeLabel.Text = map.fileSize;
                 MapSuggestedPlayersLabel.Text = map.suggestedPlayers;
+                if (string.IsNullOrEmpty(map.thumbnailURL) || !map.thumbnailURL.ToLower().StartsWith("http"))
+                {
+                    thumbnailBox.Image = defaultThumbnail;
+                }
+                else
+                {
+                    thumbnailBox.ImageLocation = map.thumbnailURL;
+                }
             }
 
         }
@@ -277,6 +287,8 @@ namespace Mordhau_Map_Installer
                         m.fileSize = lines[6];
                         if (lines.Length > 7)
                             m.suggestedPlayers = lines[7];
+                        if (lines.Length > 8)
+                            m.thumbnailURL = lines[8];
                         //Log("Adding map " + m.name);
                         Map.maps.Add(m);
                         foreach (Map y in Map.installed.Where(z =>
@@ -431,6 +443,8 @@ namespace Mordhau_Map_Installer
                         m.fileSize = lines[6];
                         if (lines.Length > 7)
                             m.suggestedPlayers = lines[7];
+                        if (lines.Length > 8)
+                            m.thumbnailURL = lines[8];
                         //Log("Adding map " + m.name);
                         Map.installed.Add(m);
                     }

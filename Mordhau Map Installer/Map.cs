@@ -15,8 +15,9 @@ namespace Mordhau_Map_Installer
         public string version;
         public DateTime releaseDate;
         public string fileSize;
-        public string suggestedPlayers;
+        public string suggestedPlayers = "";
         public bool needsUpdate = false;
+        public string thumbnailURL = "";
 
         public static List<Map> maps = new List<Map>();
         public static List<Map> installed = new List<Map>();

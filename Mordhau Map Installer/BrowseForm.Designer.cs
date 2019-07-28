@@ -89,7 +89,6 @@
             this.AcceptButton = this.SubmitButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton;
             this.ClientSize = new System.Drawing.Size(514, 96);
             this.ControlBox = false;
             this.Controls.Add(this.CancelButton);
@@ -111,7 +110,7 @@
         private System.Windows.Forms.Button BrowseButton;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button CancelButton;
+        new private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }

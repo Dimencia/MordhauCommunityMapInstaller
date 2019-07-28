@@ -74,6 +74,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.thumbnailBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -83,6 +84,7 @@
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnailBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -442,7 +444,7 @@
             this.versionlabel,
             this.labelspacer,
             this.statusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 509);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 710);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.statusStrip1.Size = new System.Drawing.Size(719, 22);
@@ -498,12 +500,25 @@
             this.panel3.Size = new System.Drawing.Size(697, 63);
             this.panel3.TabIndex = 8;
             // 
+            // thumbnailBox
+            // 
+            this.thumbnailBox.ErrorImage = ((System.Drawing.Image)(resources.GetObject("thumbnailBox.ErrorImage")));
+            this.thumbnailBox.Image = ((System.Drawing.Image)(resources.GetObject("thumbnailBox.Image")));
+            this.thumbnailBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("thumbnailBox.InitialImage")));
+            this.thumbnailBox.Location = new System.Drawing.Point(11, 512);
+            this.thumbnailBox.Name = "thumbnailBox";
+            this.thumbnailBox.Size = new System.Drawing.Size(698, 195);
+            this.thumbnailBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnailBox.TabIndex = 9;
+            this.thumbnailBox.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(719, 531);
+            this.ClientSize = new System.Drawing.Size(719, 732);
+            this.Controls.Add(this.thumbnailBox);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel5);
@@ -530,6 +545,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnailBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -581,6 +597,7 @@
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem1;
         private System.Windows.Forms.ToolStripStatusLabel versionlabel;
         private System.Windows.Forms.ToolStripMenuItem basicHelpToolStripMenuItem;
+        private System.Windows.Forms.PictureBox thumbnailBox;
     }
 }
 
