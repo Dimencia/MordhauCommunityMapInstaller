@@ -19,16 +19,21 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        private const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.22";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.22";
 
-        private static readonly string
+        public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             s_AppData = $@"{s_ApplicationDataPath}\MordhauMapInstaller",
             s_InfoFiles = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles\",
-            s_InfoFilesZip = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles.zip";
+            s_InfoFilesZip = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles.zip",
+            s_ProjectGithub = @"https://github.com/Dimencia/MordhauCommunityMapInstaller",
+            s_DisableUpdatesFile = $@"{s_AppData}\noupdates.txt";
 
         private readonly Image m_DefaultThumbnail;
         private string m_MordhauPath = string.Empty;
+        public static
+            
+            bool checkForUpdates = true;
 
         public Form1()
         {
@@ -55,6 +60,12 @@ namespace Mordhau_Map_Installer
             string logPath = $@"{s_AppData}\log.txt";
             if (File.Exists(logPath))
                 File.Delete(logPath);
+
+            checkForUpdates = !File.Exists(s_DisableUpdatesFile);
+
+            // Check for updates on startup
+            if(checkForUpdates)
+                CheckForUpdates();
 
             // Next check if we have an ini file with mordhau location
             string configPath = $@"{s_AppData}\config.txt";
@@ -152,6 +163,50 @@ namespace Mordhau_Map_Installer
             RemoveButton.Enabled = false;
             InstallButton.Enabled = false;
             Log("Invalid Mordhau path!  Re-set it in Settings before doing anything");
+        }
+
+        private void CheckForUpdates()
+        {
+            try
+            {
+                // Load the webpage
+                using (var client = new WebClient())
+                {
+                    string page = client.DownloadString(s_ProjectGithub);
+                    Regex reg = new Regex(@"(?i)MCMI([^A-Za-z]*)\.exe");
+                    Match m = reg.Match(page);
+                    if (m.Success)
+                    {
+                        string version = m.Groups[1].Value;
+                        Log("Detected version " + version + " vs current " + VERSION);
+                        if (!version.Equals(VERSION))
+                        {
+                            // Find change note... First, truncate to what we just found
+                            page = page.Substring(m.Index);
+                            reg = new Regex("title=\\\"([^\\\"]*)");
+                            Match changeMatch = reg.Match(page);
+                            if (changeMatch.Success)
+                            {
+                                UpdateAvailable updateForm = new UpdateAvailable(version, changeMatch.Groups[1].Value);
+                                updateForm.Show(this);
+                                return;
+                            }
+                            else
+                                Log("Error displaying - Update is available");
+                        }
+                        else
+                            Log("No updates found");
+                    }
+                    else 
+                        Log("Error checking for updates");
+                }
+            }
+            catch (Exception e)
+            {
+                Log(e.Message);
+                Log(e.StackTrace);
+                Log("Failed to check for updates");
+            }
         }
 
         private void UpdateMapInfo(Map map)
@@ -319,7 +374,7 @@ namespace Mordhau_Map_Installer
             browseForm.Dispose();
         }
 
-        private void Log(string message)
+        public void Log(string message)
         {
             Console.WriteLine(message);
             labelspacer.Text = message;
@@ -412,6 +467,11 @@ namespace Mordhau_Map_Installer
             InstalledMapsBox.DataSource = Map.installed;
             InstalledMapsBox.DisplayMember = "name";
             Update();
+        }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckForUpdates();
         }
 
         private async Task InstallMap(Map m)
