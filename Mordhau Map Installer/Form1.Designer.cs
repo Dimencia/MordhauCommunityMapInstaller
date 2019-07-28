@@ -444,7 +444,7 @@
             this.versionlabel,
             this.labelspacer,
             this.statusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 710);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 661);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.statusStrip1.Size = new System.Drawing.Size(719, 22);
@@ -507,7 +507,7 @@
             this.thumbnailBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("thumbnailBox.InitialImage")));
             this.thumbnailBox.Location = new System.Drawing.Point(11, 512);
             this.thumbnailBox.Name = "thumbnailBox";
-            this.thumbnailBox.Size = new System.Drawing.Size(698, 195);
+            this.thumbnailBox.Size = new System.Drawing.Size(698, 146);
             this.thumbnailBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.thumbnailBox.TabIndex = 9;
             this.thumbnailBox.TabStop = false;
@@ -517,7 +517,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(719, 732);
+            this.ClientSize = new System.Drawing.Size(719, 683);
             this.Controls.Add(this.thumbnailBox);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.statusStrip1);
