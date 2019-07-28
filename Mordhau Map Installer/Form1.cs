@@ -272,11 +272,20 @@ namespace Mordhau_Map_Installer
 
         private void UpdateAvailableMaps()
         {
-            Log($"{Map.maps.Count} maps being updated");
-            AvailableMapsBox.Items.Clear();
-            AvailableMapsBox.DataSource = Map.maps;
-            AvailableMapsBox.DisplayMember = "name";
-            Log($"{Map.maps.Count} maps updated");
+            try
+            {
+                Log($"{Map.maps.Count} maps being updated");
+                if(AvailableMapsBox.DataSource == null)
+                    AvailableMapsBox.DataSource = Map.maps;
+                AvailableMapsBox.DisplayMember = "name";
+                Log($"{Map.maps.Count} maps updated");
+            }
+            catch (Exception e)
+            {
+                Log(e.Message);
+                Log(e.StackTrace);
+                Log("Refresh Failed");
+            }
         }
 
         private void ShowMordhauPathDialog()
@@ -465,8 +474,8 @@ namespace Mordhau_Map_Installer
         {
             try
             {
-                UpdateInstalledMaps(); // And list any installed maps
-                Log("Checking for maps...");
+                UpdateInstalledMaps();
+                Log("Refreshing...");
                 CheckContents("MordhauMappingModding", "MapFiles", @"\");
             }
             catch (Exception ex)
