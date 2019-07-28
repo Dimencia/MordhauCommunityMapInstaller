@@ -44,6 +44,8 @@ namespace Mordhau_Map_Installer
 
             string version = ApplicationDeployment.IsNetworkDeployed ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4) : VERSION;
 
+            Directory.CreateDirectory($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\");
+
             Log($"Version {version}");
             versionlabel.Text = $@"Version {version}";
 
@@ -190,8 +192,6 @@ namespace Mordhau_Map_Installer
             Map.maps = new List<Map>();
 
             Log("Getting all contents");
-
-            Directory.CreateDirectory($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\");
 
             Log("Deleting old zip");
             // Delete zip if it already exists, though it shouldn't. 
