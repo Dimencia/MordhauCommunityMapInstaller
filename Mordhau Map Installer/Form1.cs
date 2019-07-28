@@ -19,7 +19,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        private const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.21";
+        private const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.22";
 
         private static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
