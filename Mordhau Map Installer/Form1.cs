@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
@@ -19,7 +18,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.23";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.0.0.24";
 
         public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
