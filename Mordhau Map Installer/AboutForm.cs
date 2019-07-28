@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Mordhau_Map_Installer
@@ -22,9 +15,8 @@ namespace Mordhau_Map_Installer
 
         private void LinkLabel1OnLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string target = e.Link.LinkData as string;
-            if (target != null && target.ToLower().StartsWith("http"))
-                System.Diagnostics.Process.Start(target);
+            if (e.Link.LinkData is string target && target.ToLower().StartsWith("http"))
+                Process.Start(target);
         }
     }
 }

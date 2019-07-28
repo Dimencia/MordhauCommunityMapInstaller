@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Mordhau_Map_Installer
@@ -26,7 +19,7 @@ namespace Mordhau_Map_Installer
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
-            var result = folderBrowserDialog1.ShowDialog();
+            DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
                 textBox1.Text = folderBrowserDialog1.SelectedPath;
