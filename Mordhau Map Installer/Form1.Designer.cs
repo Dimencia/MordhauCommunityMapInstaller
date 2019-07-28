@@ -320,9 +320,8 @@
             this.MapDescriptionLabel.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
             this.MapDescriptionLabel.Location = new System.Drawing.Point(100, 15);
             this.MapDescriptionLabel.Name = "MapDescriptionLabel";
-            this.MapDescriptionLabel.Size = new System.Drawing.Size(27, 13);
+            this.MapDescriptionLabel.Size = new System.Drawing.Size(0, 13);
             this.MapDescriptionLabel.TabIndex = 15;
-            this.MapDescriptionLabel.Text = "asdf";
             // 
             // MapSuggestedPlayersLabel
             // 
@@ -397,9 +396,8 @@
             this.MapAuthorsLabel.AutoSize = true;
             this.MapAuthorsLabel.Location = new System.Drawing.Point(100, 30);
             this.MapAuthorsLabel.Name = "MapAuthorsLabel";
-            this.MapAuthorsLabel.Size = new System.Drawing.Size(27, 13);
+            this.MapAuthorsLabel.Size = new System.Drawing.Size(0, 13);
             this.MapAuthorsLabel.TabIndex = 6;
-            this.MapAuthorsLabel.Text = "asdf";
             // 
             // label6
             // 
