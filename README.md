@@ -10,7 +10,7 @@ If your Mordhau path cannot be found via registry, you will be prompted to set i
 
 
 
-## Important information
+## Important information for mapmakers
 
 Preview image minimum size: 698, 146
 
