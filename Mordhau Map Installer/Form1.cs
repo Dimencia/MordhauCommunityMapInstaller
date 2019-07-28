@@ -13,7 +13,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using Octokit;
 using Application = System.Windows.Forms.Application;
 
 namespace Mordhau_Map_Installer
@@ -24,11 +23,12 @@ namespace Mordhau_Map_Installer
 
         private static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            s_AppData = $@"{s_ApplicationDataPath}\MordhauMapInstaller";
+            s_AppData = $@"{s_ApplicationDataPath}\MordhauMapInstaller",
+            s_InfoFiles = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles\",
+            s_InfoFilesZip = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles.zip";
 
         private readonly Image m_DefaultThumbnail;
         private string m_MordhauPath = string.Empty;
-        private int m_RequestsLeft = 6000;
 
         public Form1()
         {
@@ -99,23 +99,11 @@ namespace Mordhau_Map_Installer
                 }
             }
 
-            // If not, try to auto-detect
-            // If unsuccessful, prompt user to browse to it
-            // If either, save ini file with location after
-
-            // Then download all .txt files from github
-            // First find them.  
-            UpdateInstalledMaps(); // And list any installed maps
+            // First check for any installed info files and show them
+            UpdateInstalledMaps();
             Log("Checking for maps...");
+            // Then download the info files from github for available maps and update them
             CheckContents("MordhauMappingModding", "MapFiles", @"\");
-
-            // We do a zipball, unzip it, and check the files
-            // When we want to download, we do: https://github.com/MordhauMappingModding/MapFiles/blob/master/BerzerkerArena.zip?raw=true for example
-
-            // List each map by map name in available maps
-            // Check install directory for any .info.txt files and list in installed
-
-            // Then wait for a button click, install or remove.  Check appropriate boxes for checkmarks, install or remove as necessary
         }
 
         private void SelectNoneToolStripMenuItem1OnClick(object sender, EventArgs e)
@@ -154,12 +142,11 @@ namespace Mordhau_Map_Installer
 
         private void AvailableMapsBoxOnSelectedValueChanged(object sender, EventArgs e)
         {
-            UpdateMapInfo(((CheckedListBox) sender).SelectedValue as Map);
+            UpdateMapInfo(((CheckedListBox)sender).SelectedValue as Map);
             InstallButton.Enabled = AvailableMapsBox.CheckedItems.Count > 0;
             RemoveButton.Enabled = InstalledMapsBox.CheckedItems.Count > 0;
-            if (m_RequestsLeft <= 0)
-                Log("No requests left for community account!  Swapping to unauthenticated.  Only 60 requests per user");
-            if (m_MordhauPath.ToLower().Contains(@"steamapps\common\mordhau\mordhau\content\mordhau\maps")) return;
+            if (m_MordhauPath.ToLower().Contains(@"steamapps\common\mordhau\mordhau\content\mordhau\maps"))
+                return;
             RemoveButton.Enabled = false;
             InstallButton.Enabled = false;
             Log("Invalid Mordhau path!  Re-set it in Settings before doing anything");
@@ -167,7 +154,8 @@ namespace Mordhau_Map_Installer
 
         private void UpdateMapInfo(Map map)
         {
-            if (map == null) return;
+            if (map == null)
+                return;
             MapNameLabel.Text = map.folderName;
             MapDescriptionLabel.Links.Clear();
             MapDescriptionLabel.Text = map.description;
@@ -181,7 +169,7 @@ namespace Mordhau_Map_Installer
                 string link = m.Value;
                 MapDescriptionLabel.Links.Add(startIndex, length, link);
             }
-            
+
             MapAuthorsLabel.Text = map.authors;
             MapVersionLabel.Text = map.version;
             MapReleaseDateLabel.Text = map.releaseDate.ToLongDateString();
@@ -200,59 +188,80 @@ namespace Mordhau_Map_Installer
         private async Task CheckContents(string repoOwner, string repoName, string path)
         {
             Map.maps = new List<Map>();
-            var client = new GitHubClient(new ProductHeaderValue("Mordhau-Map-Installer"));
-            // This access token has absolutely no permissions and just lets us bypass rate limits.  Good luck using it for anything
-            if (m_RequestsLeft > 0)
-                client.Credentials = new Credentials("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
-            // Set credentials here, otherwise harsh rate limits apply.
-            Log("Getting all contents");
-            IReadOnlyList<RepositoryContent> contents = await client.Repository.Content.GetAllContents(repoOwner, repoName, path);
-            IEnumerable<string> results = contents.Select(content => content.Name);
 
-            ApiInfo apiInfo = client.GetLastApiInfo();
-            m_RequestsLeft = apiInfo?.RateLimit?.Remaining ?? 6000;
-            Log($"{m_RequestsLeft} requests left this hour");
+            Log("Getting all contents");
 
             Directory.CreateDirectory($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\");
-            Log("Checking resulting files");
-            foreach (string r in results)
+
+            Log("Deleting old zip");
+            // Delete zip if it already exists, though it shouldn't. 
+            if(File.Exists(s_InfoFilesZip))
+                File.Delete(s_InfoFilesZip);
+
+            Log("Downloading file");
+            using (var wc = new WebClient())
             {
-                // Anything ending in .info.txt
-                if (!r.ToLower().EndsWith(".info.txt")) continue;
-                IReadOnlyList<RepositoryContent> resources = await client.Repository.Content.GetAllContents(repoOwner, repoName, $@"\{r}");
-                // Let's save it so we can copy it in later if we DL the map
-                using (var writer = new StreamWriter($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\{r}"))
-                    writer.Write(resources[0].Content);
-                // So now resource[0].Content is our info file, let's create an object and put info in it
+                wc.DownloadFile(
+                    @"https://github.com/MordhauMappingModding/InfoFiles/archive/master.zip",
+                    s_InfoFilesZip);
+            }
+
+            Log("Clearing existing info files");
+            // Clear existing info files to prevent conflicts or old files getting stuck on file
+            if (Directory.Exists(s_InfoFiles))
+                Directory.Delete(s_InfoFiles, true);
+
+            Log("Creating info file directory");
+
+            Directory.CreateDirectory(s_InfoFiles);
+
+            Log("Extracting Info Files");
+
+            ZipFile.ExtractToDirectory(s_InfoFilesZip,
+                s_InfoFiles);
+
+            Log("Deleting Info Zip");
+
+            File.Delete(s_InfoFilesZip);
+
+            Log("Checking resulting files");
+            foreach (string s in Directory.GetFiles(s_InfoFiles + @"InfoFiles-master\"))
+            {
                 var m = new Map();
+                // Open the file, get it into a string, and split it on newlines
                 try
                 {
-                    string[] lines = resources[0].Content.Split('\n');
-                    m.name = lines[0];
-                    m.folderName = lines[1];
-                    m.description = lines[2];
-                    m.authors = lines[3];
-                    m.version = lines[4];
-                    m.releaseDate = DateTime.ParseExact(lines[5], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    m.fileSize = lines[6];
-                    if (lines.Length > 7)
-                        m.suggestedPlayers = lines[7];
-                    if (lines.Length > 8)
-                        m.thumbnailURL = lines[8];
-                    //Log("Adding map " + m.name);
-                    Map.maps.Add(m);
-                    foreach (Map y in Map.installed.Where(z =>
-                        z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+                    using (var reader = new StreamReader(s))
                     {
-                        y.needsUpdate = true;
-                        y.name = $"[OUTDATED] {y.name}";
-                        InstalledMapsBox.Refresh();
+                        string content = reader.ReadToEnd().Replace("\r\n","\n"); // So we can split on it
+                        string[] lines = content.Split('\n'); // Could have done this with ReadLine but already had this
+                        m.name = lines[MapVars.name];
+                        m.folderName = lines[MapVars.folderName];
+                        m.description = lines[MapVars.description];
+                        m.authors = lines[MapVars.authors];
+                        m.version = lines[MapVars.version];
+                        m.releaseDate = DateTime.ParseExact(lines[MapVars.releaseDate], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        m.fileSize = lines[MapVars.fileSize];
+                        if (lines.Length > MapVars.suggestedPlayers)
+                            m.suggestedPlayers = lines[MapVars.suggestedPlayers];
+                        if (lines.Length > MapVars.thumbnailURL)
+                            m.thumbnailURL = lines[MapVars.thumbnailURL];
+                        Map.maps.Add(m);
+                        foreach (Map y in Map.installed.Where(z =>
+                            z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+                        {
+                            y.needsUpdate = true;
+                            y.name = $"[OUTDATED] {y.name}";
+                            InstalledMapsBox.Refresh();
+                        }
                     }
+
                 }
                 catch (Exception e)
                 {
-                    Log($"Error in info file: {r}; {e.Message}");
+                    Log($"Error in info file: {s}; {e.Message}");
                 }
+
             }
 
             Log("Updating available maps");
@@ -302,46 +311,17 @@ namespace Mordhau_Map_Installer
 
         private string GetSteamPath()
         {
-            // Check 64 bit registry first
-            /*
-            RegistryKey localKey =
-                RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine,
-                    RegistryView.Registry32);
-            RegistryKey sqlServerKey = localKey.OpenSubKey(
-                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 629760");
-            string steamPath = (string)sqlServerKey.GetValue("InstallLocation");
-            */
-            // The above returns null for the localkey...
-            var steamPath = (string) Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 629760", "InstallLocation", string.Empty);
+            // This is now a 64-bit program so has no problems getting into the registry
+            var steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 629760", "InstallLocation", string.Empty);
             if (steamPath != null)
                 Log("Successfully read from Mordhau InstallLocation");
             if (string.IsNullOrEmpty(steamPath))
-                steamPath = (string) Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", string.Empty);
+                steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", string.Empty);
             if (string.IsNullOrEmpty(steamPath))
-                steamPath = (string) Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath",
+                steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath",
                     steamPath);
 
             return steamPath ?? string.Empty;
-        }
-
-        private static void Scan(string path)
-        {
-            try
-            {
-                foreach (string file in Directory.EnumerateFiles(path, "*.exe"))
-                {
-                    Console.WriteLine($@"FILE: {file}");
-                }
-                foreach (string dir in Directory.EnumerateDirectories(path))
-                {
-                    Console.WriteLine($@"DIRECTORY: {dir}" );
-                    Scan(dir);
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Console.WriteLine($@"Error: {path}");
-            }
         }
 
         private void setMordhauDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -353,11 +333,16 @@ namespace Mordhau_Map_Installer
         {
             // Download and unzip each map into MordhauPath
             // Then delete the zip to keep it clean
+            
+            InstallButton.Enabled = false;
             foreach (Map m in AvailableMapsBox.CheckedItems)
             {
                 Log("Beginning install for " + m.name);
                 InstallMap(m);
             }
+
+            for (var i = 0; i < AvailableMapsBox.Items.Count; i++)
+                AvailableMapsBox.SetItemChecked(i, false);
 
             UpdateInstalledMaps();
         }
@@ -373,18 +358,19 @@ namespace Mordhau_Map_Installer
                     var m = new Map();
                     try
                     {
-                        string[] lines = reader.ReadToEnd().Split('\n');
-                        m.name = lines[0];
-                        m.folderName = lines[1];
-                        m.description = lines[2];
-                        m.authors = lines[3];
-                        m.version = lines[4];
-                        m.releaseDate = DateTime.ParseExact(lines[5], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        m.fileSize = lines[6];
-                        if (lines.Length > 7)
-                            m.suggestedPlayers = lines[7];
-                        if (lines.Length > 8)
-                            m.thumbnailURL = lines[8];
+                        string content = reader.ReadToEnd().Replace("\r\n", "\n");
+                        string[] lines = content.Split('\n');
+                        m.name = lines[MapVars.name];
+                        m.folderName = lines[MapVars.folderName];
+                        m.description = lines[MapVars.description];
+                        m.authors = lines[MapVars.authors];
+                        m.version = lines[MapVars.version];
+                        m.releaseDate = DateTime.ParseExact(lines[MapVars.releaseDate], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        m.fileSize = lines[MapVars.fileSize];
+                        if (lines.Length > MapVars.suggestedPlayers)
+                            m.suggestedPlayers = lines[MapVars.suggestedPlayers];
+                        if (lines.Length > MapVars.thumbnailURL)
+                            m.thumbnailURL = lines[MapVars.thumbnailURL];
                         //Log("Adding map " + m.name);
                         Map.installed.Add(m);
                     }
@@ -417,13 +403,9 @@ namespace Mordhau_Map_Installer
                 // This fucking api can't handle downloading zip files so I have to do it by hand and hope we don't ratelimit
                 using (var wc = new WebClient())
                 {
-                    Log($"{m_RequestsLeft} requests left this hour");
-                    if (m_RequestsLeft > 0)
-                        wc.Credentials = new NetworkCredential("CommunityMapBot", "040ba3075bf2bb0c6581874bfc687a7b2691e7cc");
                     wc.DownloadFile(
                         $@"https://github.com/MordhauMappingModding/MapFiles/blob/master/{m.folderName}.zip?raw=true",
                         $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\{m.folderName}.zip");
-                    m_RequestsLeft--;
                 }
 
                 // Check if folder already exists and delete if it does
@@ -436,7 +418,7 @@ namespace Mordhau_Map_Installer
                 Log($"Deleting {m.name}");
                 File.Delete($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\{m.folderName}.zip");
                 // Copy over the info file
-                File.Copy($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\{m.folderName}.info.txt",
+                File.Copy($@"{s_InfoFiles}\InfoFiles-master\{m.folderName}.info.txt",
                     $"{m_MordhauPath}{m.folderName}.info.txt", true);
                 Log($"Successfully installed {m.name}");
             }
@@ -499,14 +481,23 @@ namespace Mordhau_Map_Installer
             f.ShowDialog();
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-        }
-
         private void basicHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var help = new HelpForm();
             help.Show();
         }
+    }
+
+    public static class MapVars
+    {
+        public static int name = 0;
+        public static int folderName = 1;
+        public static int description = 2;
+        public static int authors = 3;
+        public static int version = 4;
+        public static int releaseDate = 5;
+        public static int fileSize = 6;
+        public static int suggestedPlayers = 7;
+        public static int thumbnailURL = 8;
     }
 }
