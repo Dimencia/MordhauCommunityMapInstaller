@@ -105,7 +105,7 @@ namespace Mordhau_Map_Installer
             UpdateInstalledMaps();
             Log("Checking for maps...");
             // Then download the info files from github for available maps and update them
-            CheckContents("MordhauMappingModding", "MapFiles", @"\");
+            CheckContents();
         }
 
         private void SelectNoneToolStripMenuItem1OnClick(object sender, EventArgs e)
@@ -187,87 +187,98 @@ namespace Mordhau_Map_Installer
             }
         }
 
-        private async Task CheckContents(string repoOwner, string repoName, string path)
+        private async Task CheckContents()
         {
-            Map.maps = new List<Map>();
+            try
+            {
+                Map.maps = new List<Map>();
 
-            Log("Getting all contents");
+                Log("Getting all contents");
 
-            Log("Deleting old zip");
-            // Delete zip if it already exists, though it shouldn't. 
-            if(File.Exists(s_InfoFilesZip))
+                Log("Deleting old zip");
+                // Delete zip if it already exists, though it shouldn't. 
+                if (File.Exists(s_InfoFilesZip))
+                    File.Delete(s_InfoFilesZip);
+
+                Log("Downloading file");
+                using (var wc = new WebClient())
+                {
+                    wc.DownloadFile(
+                        @"https://github.com/MordhauMappingModding/InfoFiles/archive/master.zip",
+                        s_InfoFilesZip);
+                }
+
+                Log("Clearing existing info files");
+                // Clear existing info files to prevent conflicts or old files getting stuck on file
+                if (Directory.Exists(s_InfoFiles))
+                    Directory.Delete(s_InfoFiles, true);
+
+                Log("Creating info file directory");
+
+                Directory.CreateDirectory(s_InfoFiles);
+
+                Log("Extracting Info Files");
+
+                ZipFile.ExtractToDirectory(s_InfoFilesZip,
+                    s_InfoFiles);
+
+                Log("Deleting Info Zip");
+
                 File.Delete(s_InfoFilesZip);
 
-            Log("Downloading file");
-            using (var wc = new WebClient())
-            {
-                wc.DownloadFile(
-                    @"https://github.com/MordhauMappingModding/InfoFiles/archive/master.zip",
-                    s_InfoFilesZip);
-            }
-
-            Log("Clearing existing info files");
-            // Clear existing info files to prevent conflicts or old files getting stuck on file
-            if (Directory.Exists(s_InfoFiles))
-                Directory.Delete(s_InfoFiles, true);
-
-            Log("Creating info file directory");
-
-            Directory.CreateDirectory(s_InfoFiles);
-
-            Log("Extracting Info Files");
-
-            ZipFile.ExtractToDirectory(s_InfoFilesZip,
-                s_InfoFiles);
-
-            Log("Deleting Info Zip");
-
-            File.Delete(s_InfoFilesZip);
-
-            Log("Checking resulting files");
-            foreach (string s in Directory.GetFiles(s_InfoFiles + @"InfoFiles-master\"))
-            {
-                var m = new Map();
-                // Open the file, get it into a string, and split it on newlines
-                try
+                Log("Checking resulting files");
+                foreach (string s in Directory.GetFiles(s_InfoFiles + @"InfoFiles-master\"))
                 {
-                    using (var reader = new StreamReader(s))
+                    var m = new Map();
+                    // Open the file, get it into a string, and split it on newlines
+                    try
                     {
-                        string content = reader.ReadToEnd().Replace("\r\n","\n"); // So we can split on it
-                        string[] lines = content.Split('\n'); // Could have done this with ReadLine but already had this
-                        m.name = lines[MapVars.name];
-                        m.folderName = lines[MapVars.folderName];
-                        m.description = lines[MapVars.description];
-                        m.authors = lines[MapVars.authors];
-                        m.version = lines[MapVars.version];
-                        m.releaseDate = DateTime.ParseExact(lines[MapVars.releaseDate], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        m.fileSize = lines[MapVars.fileSize];
-                        if (lines.Length > MapVars.suggestedPlayers)
-                            m.suggestedPlayers = lines[MapVars.suggestedPlayers];
-                        if (lines.Length > MapVars.thumbnailURL)
-                            m.thumbnailURL = lines[MapVars.thumbnailURL];
-                        Map.maps.Add(m);
-                        foreach (Map y in Map.installed.Where(z =>
-                            z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+                        using (var reader = new StreamReader(s))
                         {
-                            y.needsUpdate = true;
-                            y.name = $"[OUTDATED] {y.name}";
-                            InstalledMapsBox.Refresh();
+                            string content = reader.ReadToEnd().Replace("\r\n", "\n"); // So we can split on it
+                            string[]
+                                lines = content.Split('\n'); // Could have done this with ReadLine but already had this
+                            m.name = lines[MapVars.name];
+                            m.folderName = lines[MapVars.folderName];
+                            m.description = lines[MapVars.description];
+                            m.authors = lines[MapVars.authors];
+                            m.version = lines[MapVars.version];
+                            m.releaseDate = DateTime.ParseExact(lines[MapVars.releaseDate], "dd/MM/yyyy",
+                                CultureInfo.InvariantCulture);
+                            m.fileSize = lines[MapVars.fileSize];
+                            if (lines.Length > MapVars.suggestedPlayers)
+                                m.suggestedPlayers = lines[MapVars.suggestedPlayers];
+                            if (lines.Length > MapVars.thumbnailURL)
+                                m.thumbnailURL = lines[MapVars.thumbnailURL];
+                            Map.maps.Add(m);
+                            foreach (Map y in Map.installed.Where(z =>
+                                z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+                            {
+                                y.needsUpdate = true;
+                                y.name = $"[OUTDATED] {y.name}";
+                                InstalledMapsBox.Refresh();
+                            }
                         }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log($"Error in info file: {s}; {e.Message}");
                     }
 
                 }
-                catch (Exception e)
-                {
-                    Log($"Error in info file: {s}; {e.Message}");
-                }
 
+                Log("Updating available maps");
+                UpdateAvailableMaps();
+                Update();
+                Log("Ready");
             }
-
-            Log("Updating available maps");
-            UpdateAvailableMaps();
-            Update();
-            Log("Ready");
+            catch (Exception e)
+            {
+                Log(e.Message);
+                Log(e.StackTrace);
+                Log("Error while updating maps.  File -> Refresh to try again");
+            }
         }
 
         private void UpdateAvailableMaps()
@@ -476,7 +487,7 @@ namespace Mordhau_Map_Installer
             {
                 UpdateInstalledMaps();
                 Log("Refreshing...");
-                CheckContents("MordhauMappingModding", "MapFiles", @"\");
+                CheckContents();
             }
             catch (Exception ex)
             {
