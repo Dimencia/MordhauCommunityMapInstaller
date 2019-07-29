@@ -38,6 +38,10 @@ Maps receiving major changes such as moving, adding, or removing collision objec
 
 Check any existing maps for info.txt files to get an example
 
+Note that all lines are **required** and the installer will not show your map if they are not there
+
+If you wish to skip any field you can leave the line blank.  If you want to add a thumbnail but not SuggestedPlayers, for example, just leave a blank line where SuggestedPlayers should be
+
 Filename: FolderName.info.txt
 
 Each of these parameters on newlines, in order
@@ -59,7 +63,7 @@ Each of these parameters on newlines, in order
 
 >FileSize (Unzipped size of all files)
 
->Optional: MaxPlayers (Set low for small maps)
+>SuggestedPlayers (Set low for small maps)
 
->Optional: Thumbnail URL
+>Thumbnail URL
 
