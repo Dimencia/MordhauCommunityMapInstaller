@@ -21,8 +21,18 @@ Preview image minimum size: 698, 146
 
 Note that preview images can, and should be, bigger than this - they will be centered and cropped
 
+### Map Updates
+
+Players can join a server that has a new version of a map, even if they have an old version.  This can cause problems if the new version has models that have been moved or added, since the client will collide with them but not see them.  
+
+With that in mind, maps receiving minor cosmetic updates can have the same map name, and the version should be increased - the installer will let users know if the map needs to be updated (but only if they actually run it)
+
+Maps receiving major changes such as moving, adding, or removing collision objects should be uploaded under a new name, such as MapNamev2, so that players with an old version can't join them
+
 
 ### Info file format
+
+Check any existing maps for info.txt files to get an example
 
 Filename: FolderName.info.txt
 
