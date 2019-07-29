@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
+using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -18,7 +19,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.1";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.2";
 
         public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -415,10 +416,31 @@ namespace Mordhau_Map_Installer
             ShowMordhauPathDialog();
         }
 
+        private delegate void SafeVoid();
+
+        private void CountInstallingMaps()
+        {
+            // This is meant to be called once for each map being installed
+            // Once we count that we've installed them all we can do things
+            numMapsInstalled++;
+            Log($"Installed {numMapsInstalled} of {numMapsInstalling} maps");
+            if (numMapsInstalled >= numMapsInstalling)
+            {
+                UpdateInstalledMaps();
+                Log("All maps installed - You may need to restart Mordhau");
+            }
+        }
+
+        private int numMapsInstalling = 0;
+        private int numMapsInstalled = 0;
+        private object countingLocker = new Object();
+
         private void InstallButton_Click(object sender, EventArgs e)
         {
             // Download and unzip each map into MordhauPath
             // Then delete the zip to keep it clean
+            numMapsInstalling = AvailableMapsBox.CheckedItems.Count;
+            numMapsInstalled = 0;
 
             InstallButton.Enabled = false;
             foreach (Map m in AvailableMapsBox.CheckedItems)
@@ -426,7 +448,8 @@ namespace Mordhau_Map_Installer
                 Log("Beginning install for " + m.name);
                 Task.Run(async () => {
                     await InstallMap(m);
-                    UpdateInstalledMaps();
+                    lock (countingLocker)
+                        CountInstallingMaps();
                 });
             }
 
@@ -437,49 +460,62 @@ namespace Mordhau_Map_Installer
 
         private void UpdateInstalledMaps()
         {
-            Map.installed = new List<Map>();
-            // Find all files ending with .info.txt in mordhaupath
-            foreach (string f in Directory.GetFiles(m_MordhauPath, "*.info.txt", SearchOption.AllDirectories))
+            if (InvokeRequired)
             {
-                using (var reader = new StreamReader(f))
+                var d = new SafeVoid(UpdateInstalledMaps);
+                Invoke(d);
+            }
+            else
+            {
+
+
+                Map.installed = new List<Map>();
+                // Find all files ending with .info.txt in mordhaupath
+                foreach (string f in Directory.GetFiles(m_MordhauPath, "*.info.txt", SearchOption.AllDirectories))
                 {
-                    var m = new Map();
-                    try
+                    using (var reader = new StreamReader(f))
                     {
-                        string content = reader.ReadToEnd().Replace("\r\n", "\n");
-                        string[] lines = content.Split('\n');
-                        m.name = lines[MapVars.name];
-                        m.folderName = lines[MapVars.folderName];
-                        m.description = lines[MapVars.description];
-                        m.authors = lines[MapVars.authors];
-                        m.version = lines[MapVars.version];
-                        m.releaseDate = DateTime.ParseExact(lines[MapVars.releaseDate], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        m.fileSize = lines[MapVars.fileSize];
-                        if (lines.Length > MapVars.suggestedPlayers)
-                            m.suggestedPlayers = lines[MapVars.suggestedPlayers];
-                        if (lines.Length > MapVars.thumbnailURL)
-                            m.thumbnailURL = lines[MapVars.thumbnailURL];
-                        //Log("Adding map " + m.name);
-                        Map.installed.Add(m);
-                    }
-                    catch (Exception e)
-                    {
-                        Log($"Error in installed info file: {f}; {e.Message}");
+                        var m = new Map();
+                        try
+                        {
+                            string content = reader.ReadToEnd().Replace("\r\n", "\n");
+                            string[] lines = content.Split('\n');
+                            m.name = lines[MapVars.name];
+                            m.folderName = lines[MapVars.folderName];
+                            m.description = lines[MapVars.description];
+                            m.authors = lines[MapVars.authors];
+                            m.version = lines[MapVars.version];
+                            m.releaseDate = DateTime.ParseExact(lines[MapVars.releaseDate], "dd/MM/yyyy",
+                                CultureInfo.InvariantCulture);
+                            m.fileSize = lines[MapVars.fileSize];
+                            if (lines.Length > MapVars.suggestedPlayers)
+                                m.suggestedPlayers = lines[MapVars.suggestedPlayers];
+                            if (lines.Length > MapVars.thumbnailURL)
+                                m.thumbnailURL = lines[MapVars.thumbnailURL];
+                            //Log("Adding map " + m.name);
+                            Map.installed.Add(m);
+                        }
+                        catch (Exception e)
+                        {
+                            Log($"Error in installed info file: {f}; {e.Message}");
+                        }
                     }
                 }
-            }
-            foreach (Map m in Map.maps)
-            {
-                foreach (Map y in Map.installed.Where(z =>
-                    z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+
+                foreach (Map m in Map.maps)
                 {
-                    y.needsUpdate = true;
-                    y.name = $"[OUTDATED] {y.name}";
+                    foreach (Map y in Map.installed.Where(z =>
+                        z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+                    {
+                        y.needsUpdate = true;
+                        y.name = $"[OUTDATED] {y.name}";
+                    }
                 }
+
+                InstalledMapsBox.DataSource = Map.installed;
+                InstalledMapsBox.DisplayMember = "name";
+                Update();
             }
-            InstalledMapsBox.DataSource = Map.installed;
-            InstalledMapsBox.DisplayMember = "name";
-            Update();
         }
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -513,7 +549,7 @@ namespace Mordhau_Map_Installer
                 // Copy over the info file
                 File.Copy($@"{s_InfoFiles}InfoFiles-master\{m.folderName}.info.txt",
                     $@"{m_MordhauPath}{m.folderName}\{m.folderName}.info.txt", true);
-                Log($"Successfully installed {m.name} - You may need to restart Mordhau");
+                Log($"Successfully installed {m.name}");
             }
             catch (Exception e)
             {
