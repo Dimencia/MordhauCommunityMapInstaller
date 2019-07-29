@@ -21,6 +21,10 @@ Preview image minimum size: 698, 146
 
 Note that preview images can, and should be, bigger than this - they will be centered and cropped
 
+**Your zip file name and folder name should exactly match your map's base in-game name, and this is what you enter for FolderName in the info file**
+
+If your map has multiple versions, such as SKM_mapname, you can mention them in your Description, but your folder/zip names should still match the base map
+
 ### Map Updates
 
 Players can join a server that has a new version of a map, even if they have an old version.  This can cause problems if the new version has models that have been moved or added, since the client will collide with them but not see them.  
