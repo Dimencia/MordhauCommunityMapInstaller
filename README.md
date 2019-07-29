@@ -10,8 +10,9 @@ If your Mordhau path cannot be found via registry, you will be prompted to set i
 ## Installation Instructions
 Download MCMIx.x.x.x.exe from above and run it
 
-If you are missing any dependencies it should let you know; if not, an installer is available on Discord to automatically retrieve them
+If you are missing any dependencies it should let you know; if not, an installer is available on Discord to automatically retrieve them.  This will be posted publicly if necessary, otherwise you may need to contact Moderators or @D.Mentia#0614 on Discord
 
+If you want to try compiling it yourself for security, download and extract all files, open MordhauMapInstaller.sln in Visual Studio 2017.  Go to Project -> MordhauMapInstaller Properties, Signing, and disable all checkboxes.  You can then Build -> Build Solution.  The compiled exe will be in MordhauMapInstaller/bin/Release, and you can ignore any other files in there.
 
 
 ## Important information for mapmakers
