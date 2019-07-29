@@ -32,6 +32,8 @@ Maps receiving major changes such as moving, adding, or removing collision objec
 
 ### Info file format
 
+Check any existing maps for info.txt files to get an example
+
 Filename: FolderName.info.txt
 
 Each of these parameters on newlines, in order
