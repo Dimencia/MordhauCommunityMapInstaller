@@ -77,6 +77,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.thumbnailBox = new System.Windows.Forms.PictureBox();
+            this.refreshToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -200,9 +202,10 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem});
+            this.selectNoneToolStripMenuItem,
+            this.refreshToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(138, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(138, 70);
             // 
             // selectAllToolStripMenuItem
             // 
@@ -268,20 +271,21 @@
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem1,
-            this.selectNoneToolStripMenuItem1});
+            this.selectNoneToolStripMenuItem1,
+            this.refreshToolStripMenuItem2});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(138, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(153, 92);
             // 
             // selectAllToolStripMenuItem1
             // 
             this.selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
-            this.selectAllToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.selectAllToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.selectAllToolStripMenuItem1.Text = "Select All";
             // 
             // selectNoneToolStripMenuItem1
             // 
             this.selectNoneToolStripMenuItem1.Name = "selectNoneToolStripMenuItem1";
-            this.selectNoneToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.selectNoneToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.selectNoneToolStripMenuItem1.Text = "Select None";
             // 
             // RemoveButton
@@ -527,6 +531,20 @@
             this.thumbnailBox.TabIndex = 9;
             this.thumbnailBox.TabStop = false;
             // 
+            // refreshToolStripMenuItem1
+            // 
+            this.refreshToolStripMenuItem1.Name = "refreshToolStripMenuItem1";
+            this.refreshToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.refreshToolStripMenuItem1.Text = "Refresh";
+            this.refreshToolStripMenuItem1.Click += refreshToolStripMenuItem_Click;
+            // 
+            // refreshToolStripMenuItem2
+            // 
+            this.refreshToolStripMenuItem2.Name = "refreshToolStripMenuItem2";
+            this.refreshToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.refreshToolStripMenuItem2.Text = "Refresh";
+            this.refreshToolStripMenuItem2.Click += refreshToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -615,6 +633,8 @@
         private System.Windows.Forms.PictureBox thumbnailBox;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem2;
     }
 }
 

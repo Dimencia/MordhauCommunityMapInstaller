@@ -18,7 +18,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.0";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.1";
 
         public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -61,7 +61,7 @@ namespace Mordhau_Map_Installer
             checkForUpdates = !File.Exists(s_DisableUpdatesFile);
 
             // Check for updates on startup
-            if(checkForUpdates)
+            if (checkForUpdates)
                 CheckForUpdates();
 
             // Next check if we have an ini file with mordhau location
@@ -185,7 +185,7 @@ namespace Mordhau_Map_Installer
                         else
                             Log("No updates found");
                     }
-                    else 
+                    else
                         Log("Error checking for updates");
                 }
             }
@@ -329,7 +329,7 @@ namespace Mordhau_Map_Installer
             try
             {
                 Log($"{Map.maps.Count} maps being updated");
-                if(AvailableMapsBox.DataSource == null)
+                if (AvailableMapsBox.DataSource == null)
                     AvailableMapsBox.DataSource = Map.maps;
                 AvailableMapsBox.DisplayMember = "name";
                 Log($"{Map.maps.Count} maps updated");
@@ -362,13 +362,36 @@ namespace Mordhau_Map_Installer
             browseForm.Dispose();
         }
 
+        private delegate void SafeCallDelegate(string text);
+
+        private static object locker = new Object();
+
         public void Log(string message)
         {
             Console.WriteLine(message);
-            labelspacer.Text = message;
-            using (StreamWriter writer = File.AppendText($@"{s_ApplicationDataPath}\MordhauMapInstaller\log.txt"))
+            if (InvokeRequired)
             {
-                writer.WriteLine(message);
+                var d = new SafeCallDelegate(Log);
+                Invoke(d, new object[] { message });
+            }
+            else
+            {
+                labelspacer.Text = message;
+                try
+                {
+                    lock (locker)
+                        using (StreamWriter writer =
+                            File.AppendText($@"{s_ApplicationDataPath}\MordhauMapInstaller\log.txt"))
+                        {
+                            writer.WriteLine(message);
+                        }
+                }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                    Log(e.StackTrace);
+                    Log($"Failed to write log: {message}");
+                }
             }
         }
 
@@ -396,25 +419,27 @@ namespace Mordhau_Map_Installer
         {
             // Download and unzip each map into MordhauPath
             // Then delete the zip to keep it clean
-            
+
             InstallButton.Enabled = false;
             foreach (Map m in AvailableMapsBox.CheckedItems)
             {
                 Log("Beginning install for " + m.name);
-                InstallMap(m);
+                Task.Run(async () => {
+                    await InstallMap(m);
+                    UpdateInstalledMaps();
+                });
             }
 
             for (var i = 0; i < AvailableMapsBox.Items.Count; i++)
                 AvailableMapsBox.SetItemChecked(i, false);
 
-            UpdateInstalledMaps();
         }
 
         private void UpdateInstalledMaps()
         {
             Map.installed = new List<Map>();
             // Find all files ending with .info.txt in mordhaupath
-            foreach (string f in Directory.GetFiles(m_MordhauPath, "*.info.txt",SearchOption.AllDirectories))
+            foreach (string f in Directory.GetFiles(m_MordhauPath, "*.info.txt", SearchOption.AllDirectories))
             {
                 using (var reader = new StreamReader(f))
                 {
@@ -544,6 +569,8 @@ namespace Mordhau_Map_Installer
             {
                 Log($"Error: {ex.Message}");
             }
+
+            Update();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
