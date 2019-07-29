@@ -5,8 +5,12 @@ Maps are downloaded and installed with one click, helping users to avoid confusi
 
 If your Mordhau path cannot be found via registry, you will be prompted to set it by browsing to your Mordhau folder
 
-@D.Mentia on Discord if you have any questions or find any bugs or problems
+@D.Mentia#0614 on Discord if you have any questions or find any bugs or problems
 
+## Installation Instructions
+Download MCMIx.x.x.x.exe from above and run it
+
+If you are missing any dependencies it should let you know; if not, an installer is available on Discord to automatically retrieve them
 
 
 
