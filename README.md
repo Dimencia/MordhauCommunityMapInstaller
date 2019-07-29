@@ -33,6 +33,8 @@ With that in mind, maps receiving minor cosmetic updates can have the same map n
 
 Maps receiving major changes such as moving, adding, or removing collision objects should be uploaded under a new name, such as MapNamev2, so that players with an old version can't join them
 
+This is just a suggestion, of course, but your players may otherwise have problems if they have an older version and join a server hosting a newer one, if the names are the same
+
 
 ### Info file format
 
