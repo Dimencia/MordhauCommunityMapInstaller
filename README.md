@@ -1,4 +1,5 @@
 # MordhauCommunityMapInstaller
+![Screenshot](https://imgur.com/nZaFaAu.png)
 This application interfaces with a server hosting all approved Community maps, and provides a list for users to pick which maps they would like to download
 
 Maps are downloaded and installed with one click, helping users to avoid confusion finding Mordhau paths to put the maps in
