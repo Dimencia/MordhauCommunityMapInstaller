@@ -10,7 +10,7 @@ If your Mordhau path cannot be found via registry, you will be prompted to set i
 @D.Mentia#0614 on Discord if you have any questions or find any bugs or problems
 
 ## Installation Instructions
-Download MCMIx.x.x.x.exe from above and run it
+Download MCMIx.x.x.x.exe from above, or under the Releases tab, and run it
 
 If you are missing any dependencies it should let you know; if not, an installer is available on Discord to automatically retrieve them.  This will be posted publicly if necessary, otherwise you may need to contact Moderators or @D.Mentia#0614 on Discord
 
