@@ -1,4 +1,6 @@
 # MordhauCommunityMapInstaller
+![Screenshot](https://imgur.com/nZaFaAu.png)
+
 This application interfaces with a server hosting all approved Community maps, and provides a list for users to pick which maps they would like to download
 
 Maps are downloaded and installed with one click, helping users to avoid confusion finding Mordhau paths to put the maps in
@@ -8,7 +10,10 @@ If your Mordhau path cannot be found via registry, you will be prompted to set i
 @D.Mentia#0614 on Discord if you have any questions or find any bugs or problems
 
 ## Installation Instructions
-Download MCMIx.x.x.x.exe from above and run it
+
+Full, thorough instructions with screenshots here: https://imgur.com/a/449guZF
+
+Download MCMIx.x.x.x.exe from above, or under the Releases tab, and run it
 
 If you are missing any dependencies it should let you know; if not, an installer is available on Discord to automatically retrieve them.  This will be posted publicly if necessary, otherwise you may need to contact Moderators or @D.Mentia#0614 on Discord
 
@@ -21,6 +26,10 @@ Preview image minimum size: 698, 146
 
 Note that preview images can, and should be, bigger than this - they will be centered and cropped
 
+**Your zip file name and folder name should exactly match your map's base in-game name, and this is what you enter for FolderName in the info file**
+
+If your map has multiple versions, such as SKM_mapname, you can mention them in your Description, but your folder/zip names should still match the base map
+
 ### Map Updates
 
 Players can join a server that has a new version of a map, even if they have an old version.  This can cause problems if the new version has models that have been moved or added, since the client will collide with them but not see them.  
@@ -29,10 +38,16 @@ With that in mind, maps receiving minor cosmetic updates can have the same map n
 
 Maps receiving major changes such as moving, adding, or removing collision objects should be uploaded under a new name, such as MapNamev2, so that players with an old version can't join them
 
+This is just a suggestion, of course, but your players may otherwise have problems if they have an older version and join a server hosting a newer one, if the names are the same
+
 
 ### Info file format
 
 Check any existing maps for info.txt files to get an example
+
+Note that all lines are **required** and the installer will not show your map if they are not there
+
+If you wish to skip any field you can leave the line blank.  If you want to add a thumbnail but not SuggestedPlayers, for example, just leave a blank line where SuggestedPlayers should be
 
 Filename: FolderName.info.txt
 
@@ -55,7 +70,7 @@ Each of these parameters on newlines, in order
 
 >FileSize (Unzipped size of all files)
 
->Optional: MaxPlayers (Set low for small maps)
+>SuggestedPlayers (Set low for small maps)
 
->Optional: Thumbnail URL
+>Thumbnail URL
 
