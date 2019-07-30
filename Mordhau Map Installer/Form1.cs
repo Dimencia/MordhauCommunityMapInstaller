@@ -27,7 +27,8 @@ namespace Mordhau_Map_Installer
             s_InfoFiles = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles\",
             s_InfoFilesZip = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles.zip",
             s_ProjectGithub = @"https://github.com/Dimencia/MordhauCommunityMapInstaller",
-            s_DisableUpdatesFile = $@"{s_AppData}\noupdates.txt";
+            s_DisableUpdatesFile = $@"{s_AppData}\noupdates.txt",
+            configPath = $@"{s_AppData}\config.txt";
 
         private readonly Image m_DefaultThumbnail;
         private string m_MordhauPath = string.Empty;
@@ -66,7 +67,7 @@ namespace Mordhau_Map_Installer
                 CheckForUpdates();
 
             // Next check if we have an ini file with mordhau location
-            string configPath = $@"{s_AppData}\config.txt";
+            
             if (File.Exists(configPath))
             {
                 using (var reader = new StreamReader(configPath))
@@ -85,16 +86,21 @@ namespace Mordhau_Map_Installer
                 Log("Trying to find Mordhau Directory...");
                 string steamPath = GetSteamPath();
                 Log($"Steam Path: {steamPath}"); // If steampath contains mordhau, it's the straightup mordhau path
-                if (steamPath.Equals(string.Empty) || !Directory.Exists($@"{steamPath}\steamapps\common\mordhau") && !steamPath.ToLower().Contains("mordhau") || !Directory.Exists(steamPath))
+                // If steamPath doesn't contain "Mordhau", it is the actual steam path
+                // So then also if that path + \steamapps\common\mordhau\mordhau.exe doesn't exist, its invalid
+                // If its empty, its invalid
+                // If the directory does not exist, its invalid
+                // We should never get a directory containing 'Mordhau' that hasn't already been checked for validity
+                if (steamPath.Equals(string.Empty) || (!File.Exists($@"{steamPath}\steamapps\common\mordhau\Mordhau.exe") && !steamPath.ToLower().Contains("mordhau")) || !Directory.Exists(steamPath))
                 {
                     Log("Mordhau not found");
                     // Open configuration menu to have them browse to it
                     ShowMordhauPathDialog();
                     if (!m_MordhauPath.ToLower().Contains(MAPS_PATH) || !Directory.Exists(m_MordhauPath))
                     {
+                        Log($"Mordhau Path: {m_MordhauPath}");
                         Log($"Invalid Mordhau Path, please re-enter through Settings: {m_MordhauPath}");
                     }
-                    Log($"Mordhau Path: {m_MordhauPath}");
                 }
                 else // If we're here, the directory exists and we have one
                 {
@@ -102,15 +108,23 @@ namespace Mordhau_Map_Installer
                         ? $@"{steamPath}\mordhau\content\mordhau\maps\"
                         : $@"{steamPath}\steamapps\common\mordhau\mordhau\content\mordhau\maps\";
                     Log($"Mordhau Path: {m_MordhauPath}");
-                }
-                // Regardless let's save now
-                using (var writer = new StreamWriter(configPath))
-                {
-                    writer.WriteLine(m_MordhauPath);
+                    UpdateEverything();
                 }
             }
+            else
+            {
+                UpdateEverything();
+            }
+        }
 
-            // First check for any installed info files and show them
+        private void UpdateEverything()
+        {
+            // Regardless let's save now
+            using (var writer = new StreamWriter(configPath))
+            {
+                writer.WriteLine(m_MordhauPath);
+            }
+            // Check for any installed info files and show them
             UpdateInstalledMaps();
             Log("Checking for maps...");
             // Then download the info files from github for available maps and update them
@@ -349,7 +363,7 @@ namespace Mordhau_Map_Installer
             DialogResult result = browseForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                if (!browseForm.getResultText().ToLower().Contains("mordhau") || !Directory.Exists(browseForm.getResultText()))
+                if (!browseForm.getResultText().ToLower().Contains("mordhau") || !Directory.Exists(browseForm.getResultText()) || !File.Exists($@"{browseForm.getResultText()}\Mordhau.exe"))
                 {
                     m_MordhauPath = string.Empty;
                     Log("Invalid Mordhau Path!  Re-set through Settings");
@@ -358,9 +372,11 @@ namespace Mordhau_Map_Installer
                 {
                     m_MordhauPath = $@"{browseForm.getResultText()}\mordhau\content\mordhau\maps\";
                     Log($"New Mordhau Path: {m_MordhauPath}");
+                    UpdateEverything();
                 }
             }
             browseForm.Dispose();
+            
         }
 
         private delegate void SafeCallDelegate(string text);
@@ -401,7 +417,16 @@ namespace Mordhau_Map_Installer
             // This is now a 64-bit program so has no problems getting into the registry
             var steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 629760", "InstallLocation", string.Empty);
             if (steamPath != null)
-                Log("Successfully read from Mordhau InstallLocation");
+            {
+                if (!File.Exists($@"{steamPath}\Mordhau.exe"))
+                {
+                    Log("InstallLocation found, but was invalid");
+                    steamPath = null;
+                }
+                else
+                    Log("Successfully read from Mordhau InstallLocation");
+            }
+
             if (string.IsNullOrEmpty(steamPath))
                 steamPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", string.Empty);
             if (string.IsNullOrEmpty(steamPath))

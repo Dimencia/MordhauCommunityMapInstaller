@@ -45,6 +45,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.InstallButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -52,6 +53,7 @@
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -77,8 +79,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.thumbnailBox = new System.Windows.Forms.PictureBox();
-            this.refreshToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -219,6 +219,12 @@
             this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.selectNoneToolStripMenuItem.Text = "Select None";
             // 
+            // refreshToolStripMenuItem1
+            // 
+            this.refreshToolStripMenuItem1.Name = "refreshToolStripMenuItem1";
+            this.refreshToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.refreshToolStripMenuItem1.Text = "Refresh";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -274,19 +280,25 @@
             this.selectNoneToolStripMenuItem1,
             this.refreshToolStripMenuItem2});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(153, 92);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(138, 70);
             // 
             // selectAllToolStripMenuItem1
             // 
             this.selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
-            this.selectAllToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.selectAllToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
             this.selectAllToolStripMenuItem1.Text = "Select All";
             // 
             // selectNoneToolStripMenuItem1
             // 
             this.selectNoneToolStripMenuItem1.Name = "selectNoneToolStripMenuItem1";
-            this.selectNoneToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.selectNoneToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
             this.selectNoneToolStripMenuItem1.Text = "Select None";
+            // 
+            // refreshToolStripMenuItem2
+            // 
+            this.refreshToolStripMenuItem2.Name = "refreshToolStripMenuItem2";
+            this.refreshToolStripMenuItem2.Size = new System.Drawing.Size(137, 22);
+            this.refreshToolStripMenuItem2.Text = "Refresh";
             // 
             // RemoveButton
             // 
@@ -531,20 +543,6 @@
             this.thumbnailBox.TabIndex = 9;
             this.thumbnailBox.TabStop = false;
             // 
-            // refreshToolStripMenuItem1
-            // 
-            this.refreshToolStripMenuItem1.Name = "refreshToolStripMenuItem1";
-            this.refreshToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
-            this.refreshToolStripMenuItem1.Text = "Refresh";
-            this.refreshToolStripMenuItem1.Click += refreshToolStripMenuItem_Click;
-            // 
-            // refreshToolStripMenuItem2
-            // 
-            this.refreshToolStripMenuItem2.Name = "refreshToolStripMenuItem2";
-            this.refreshToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.refreshToolStripMenuItem2.Text = "Refresh";
-            this.refreshToolStripMenuItem2.Click += refreshToolStripMenuItem_Click;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -562,6 +560,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mordhau Community Maps Installer";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
