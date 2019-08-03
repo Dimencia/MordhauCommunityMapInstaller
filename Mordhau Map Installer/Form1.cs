@@ -48,6 +48,8 @@ namespace Mordhau_Map_Installer
 
             string version = ApplicationDeployment.IsNetworkDeployed ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4) : VERSION;
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             Directory.CreateDirectory($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\");
 
             Log($"Version {version}");
