@@ -19,7 +19,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.2";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.3";
 
         public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -65,8 +65,7 @@ namespace Mordhau_Map_Installer
             checkForUpdates = !File.Exists(s_DisableUpdatesFile);
 
             // Check for updates on startup
-            if (checkForUpdates)
-                CheckForUpdates();
+            CheckForUpdates();
 
             // Next check if we have an ini file with mordhau location
             
@@ -179,31 +178,35 @@ namespace Mordhau_Map_Installer
             Log("Invalid Mordhau path!  Re-set it in Settings before doing anything");
         }
 
-        private void CheckForUpdates()
+        private void CheckForUpdates(bool manual = false)
         {
             try
             {
                 // Load the webpage
                 using (var client = new WebClient())
                 {
-                    string page = client.DownloadString(s_ProjectGithub);
-                    Regex reg = new Regex(@"(?i)MCMI([^A-Za-z]*)\.exe");
-                    Match m = reg.Match(page);
-                    if (m.Success)
+                    // Load the updateInfo file
+                    // https://github.com/Dimencia/MordhauCommunityMapInstaller/raw/master/UpdateInfo.txt
+                    string contents = client.DownloadString("https://github.com/Dimencia/MordhauCommunityMapInstaller/raw/master/UpdateInfo.txt");
+                    // Normalize line endings
+                    contents = contents.Replace("\r\n","\n");
+                    var lines = contents.Split('\n');
+                    string version = lines[0];
+                    string url = lines[1];
+                    string filename = lines[2];
+                    bool required = bool.Parse(lines[3]);
+                    string changelog = lines[4];
+
+                    Log($"Detected version {version} vs current {VERSION}");
+                    Log(changelog);
+                    if ((checkForUpdates || required || manual) && !version.Equals(VERSION))
                     {
-                        string version = m.Groups[1].Value;
-                        Log("Detected version " + version + " vs current " + VERSION);
-                        if (!version.Equals(VERSION))
-                        {
-                            UpdateAvailable updateForm = new UpdateAvailable(version);
-                            updateForm.Show(this);
-                            return;
-                        }
-                        else
-                            Log("No updates found");
+                        UpdateAvailable updateForm = new UpdateAvailable(version, url, filename, changelog);
+                        updateForm.Show(this);
+                        return;
                     }
                     else
-                        Log("Error checking for updates");
+                        Log("No updates found");
                 }
             }
             catch (Exception e)
@@ -311,13 +314,6 @@ namespace Mordhau_Map_Installer
                             if (lines.Length > MapVars.thumbnailURL)
                                 m.thumbnailURL = lines[MapVars.thumbnailURL];
                             Map.maps.Add(m);
-                            foreach (Map y in Map.installed.Where(z =>
-                                z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
-                            {
-                                y.needsUpdate = true;
-                                y.name = $"[OUTDATED] {y.name}";
-                                InstalledMapsBox.Refresh();
-                            }
                         }
 
                     }
@@ -330,6 +326,7 @@ namespace Mordhau_Map_Installer
 
                 Log("Updating available maps");
                 UpdateAvailableMaps();
+                CheckMapUpdates();
                 Update();
                 Log("Ready");
             }
@@ -454,6 +451,7 @@ namespace Mordhau_Map_Installer
             if (numMapsInstalled >= numMapsInstalling)
             {
                 UpdateInstalledMaps();
+                CheckMapUpdates();
                 Log("All maps installed - You may need to restart Mordhau");
             }
         }
@@ -529,15 +527,7 @@ namespace Mordhau_Map_Installer
                     }
                 }
 
-                foreach (Map m in Map.maps)
-                {
-                    foreach (Map y in Map.installed.Where(z =>
-                        z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
-                    {
-                        y.needsUpdate = true;
-                        y.name = $"[OUTDATED] {y.name}";
-                    }
-                }
+                CheckMapUpdates();
 
                 InstalledMapsBox.DataSource = Map.installed;
                 InstalledMapsBox.DisplayMember = "name";
@@ -545,9 +535,37 @@ namespace Mordhau_Map_Installer
             }
         }
 
+        private void CheckMapUpdates()
+        {
+            foreach (Map m in Map.maps)
+            {
+                foreach (Map y in Map.installed.Where(z =>
+                    z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+                {
+                    y.needsUpdate = true;
+                    y.name = $"[OUTDATED] {y.name}";
+                    m.needsUpdate = true;
+                    m.name = $"[UPDATED] {m.name}";
+                }
+
+                foreach (Map y in Map.installed.Where(z =>
+                    z.folderName.Equals(m.folderName) && z.version.Equals(m.version)))
+                {
+                    // If it thinks they need an update, but they don't, fix it
+                    y.needsUpdate = false;
+                    y.name = y.name.Replace("[OUTDATED] ", "");
+                    m.needsUpdate = false;
+                    m.name = m.name.Replace("[UPDATED] ", "");
+                }
+            }
+
+            AvailableMapsBox.Refresh();
+            InstalledMapsBox.Refresh();
+        }
+
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForUpdates();
+            CheckForUpdates(true);
         }
 
         private async Task InstallMap(Map m)

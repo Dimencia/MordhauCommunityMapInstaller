@@ -352,7 +352,7 @@
             // 
             this.MapDescriptionLabel.AutoSize = true;
             this.MapDescriptionLabel.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
-            this.MapDescriptionLabel.Location = new System.Drawing.Point(100, 15);
+            this.MapDescriptionLabel.Location = new System.Drawing.Point(131, 15);
             this.MapDescriptionLabel.Name = "MapDescriptionLabel";
             this.MapDescriptionLabel.Size = new System.Drawing.Size(0, 13);
             this.MapDescriptionLabel.TabIndex = 15;
@@ -360,7 +360,7 @@
             // MapSuggestedPlayersLabel
             // 
             this.MapSuggestedPlayersLabel.AutoSize = true;
-            this.MapSuggestedPlayersLabel.Location = new System.Drawing.Point(100, 90);
+            this.MapSuggestedPlayersLabel.Location = new System.Drawing.Point(131, 90);
             this.MapSuggestedPlayersLabel.Name = "MapSuggestedPlayersLabel";
             this.MapSuggestedPlayersLabel.Size = new System.Drawing.Size(0, 13);
             this.MapSuggestedPlayersLabel.TabIndex = 14;
@@ -377,7 +377,7 @@
             // MapSizeLabel
             // 
             this.MapSizeLabel.AutoSize = true;
-            this.MapSizeLabel.Location = new System.Drawing.Point(100, 75);
+            this.MapSizeLabel.Location = new System.Drawing.Point(131, 75);
             this.MapSizeLabel.Name = "MapSizeLabel";
             this.MapSizeLabel.Size = new System.Drawing.Size(0, 13);
             this.MapSizeLabel.TabIndex = 12;
@@ -394,7 +394,7 @@
             // MapReleaseDateLabel
             // 
             this.MapReleaseDateLabel.AutoSize = true;
-            this.MapReleaseDateLabel.Location = new System.Drawing.Point(100, 60);
+            this.MapReleaseDateLabel.Location = new System.Drawing.Point(131, 60);
             this.MapReleaseDateLabel.Name = "MapReleaseDateLabel";
             this.MapReleaseDateLabel.Size = new System.Drawing.Size(0, 13);
             this.MapReleaseDateLabel.TabIndex = 10;
@@ -411,7 +411,7 @@
             // MapVersionLabel
             // 
             this.MapVersionLabel.AutoSize = true;
-            this.MapVersionLabel.Location = new System.Drawing.Point(100, 45);
+            this.MapVersionLabel.Location = new System.Drawing.Point(131, 45);
             this.MapVersionLabel.Name = "MapVersionLabel";
             this.MapVersionLabel.Size = new System.Drawing.Size(0, 13);
             this.MapVersionLabel.TabIndex = 8;
@@ -428,7 +428,7 @@
             // MapAuthorsLabel
             // 
             this.MapAuthorsLabel.AutoSize = true;
-            this.MapAuthorsLabel.Location = new System.Drawing.Point(100, 30);
+            this.MapAuthorsLabel.Location = new System.Drawing.Point(131, 30);
             this.MapAuthorsLabel.Name = "MapAuthorsLabel";
             this.MapAuthorsLabel.Size = new System.Drawing.Size(0, 13);
             this.MapAuthorsLabel.TabIndex = 6;
@@ -445,7 +445,7 @@
             // MapNameLabel
             // 
             this.MapNameLabel.AutoSize = true;
-            this.MapNameLabel.Location = new System.Drawing.Point(100, 0);
+            this.MapNameLabel.Location = new System.Drawing.Point(131, 0);
             this.MapNameLabel.Name = "MapNameLabel";
             this.MapNameLabel.Size = new System.Drawing.Size(0, 13);
             this.MapNameLabel.TabIndex = 3;
@@ -455,9 +455,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(3, 15);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 13);
+            this.label5.Size = new System.Drawing.Size(125, 13);
             this.label5.TabIndex = 2;
-            this.label5.Text = "Description";
+            this.label5.Text = "GameModes/Description";
             // 
             // label4
             // 

@@ -37,12 +37,13 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // OKButton
             // 
             this.OKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.OKButton.Location = new System.Drawing.Point(248, 171);
+            this.OKButton.Location = new System.Drawing.Point(248, 190);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 1;
@@ -82,17 +83,16 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 87);
+            this.label4.Location = new System.Drawing.Point(76, 87);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(563, 13);
+            this.label4.Size = new System.Drawing.Size(409, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "To play installed maps locally, open the Mordhau console and type \"open MapName\" " +
-    "using the MapName from details";
+            this.label4.Text = "To play installed maps locally, open the Mordhau console and type \"open MapName\"";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(48, 121);
+            this.label5.Location = new System.Drawing.Point(48, 140);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(474, 13);
             this.label5.TabIndex = 7;
@@ -102,7 +102,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(100, 155);
+            this.label6.Location = new System.Drawing.Point(100, 174);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(364, 13);
             this.label6.TabIndex = 8;
@@ -120,20 +120,30 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(87, 104);
+            this.label3.Location = new System.Drawing.Point(87, 123);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(396, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "You will sometimes need to restart Mordhau after installing maps, if it\'s already" +
     " open";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(83, 105);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(395, 13);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Some maps contain multiple gamemodes; check the Description to get their names";
+            // 
             // HelpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.OKButton;
-            this.ClientSize = new System.Drawing.Size(567, 203);
+            this.ClientSize = new System.Drawing.Size(567, 220);
             this.ControlBox = false;
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label4);
@@ -162,5 +172,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label7;
     }
 }

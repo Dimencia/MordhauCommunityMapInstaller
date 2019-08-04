@@ -36,12 +36,16 @@
             this.githubLink = new System.Windows.Forms.LinkLabel();
             this.currentVersionLabel = new System.Windows.Forms.Label();
             this.newVersionLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ChangelogLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button1.Location = new System.Drawing.Point(217, 163);
+            this.button1.Location = new System.Drawing.Point(217, 245);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -52,11 +56,11 @@
             // dontShowAgainBox
             // 
             this.dontShowAgainBox.AutoSize = true;
-            this.dontShowAgainBox.Location = new System.Drawing.Point(12, 167);
+            this.dontShowAgainBox.Location = new System.Drawing.Point(22, 249);
             this.dontShowAgainBox.Name = "dontShowAgainBox";
-            this.dontShowAgainBox.Size = new System.Drawing.Size(140, 17);
+            this.dontShowAgainBox.Size = new System.Drawing.Size(163, 17);
             this.dontShowAgainBox.TabIndex = 1;
-            this.dontShowAgainBox.Text = "Don\'t check for updates";
+            this.dontShowAgainBox.Text = "Don\'t show on minor updates";
             this.dontShowAgainBox.UseVisualStyleBackColor = true;
             this.dontShowAgainBox.CheckedChanged += new System.EventHandler(this.dontShowAgainBox_CheckedChanged);
             // 
@@ -92,7 +96,7 @@
             // 
             this.githubLink.AutoSize = true;
             this.githubLink.LinkArea = new System.Windows.Forms.LinkArea(6, 4);
-            this.githubLink.Location = new System.Drawing.Point(63, 121);
+            this.githubLink.Location = new System.Drawing.Point(63, 203);
             this.githubLink.Name = "githubLink";
             this.githubLink.Size = new System.Drawing.Size(306, 17);
             this.githubLink.TabIndex = 6;
@@ -117,13 +121,43 @@
             this.newVersionLabel.Size = new System.Drawing.Size(0, 13);
             this.newVersionLabel.TabIndex = 8;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(67, 113);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Changes:";
+            // 
+            // ChangelogLabel
+            // 
+            this.ChangelogLabel.AutoSize = true;
+            this.ChangelogLabel.Location = new System.Drawing.Point(6, 0);
+            this.ChangelogLabel.MaximumSize = new System.Drawing.Size(310, 0);
+            this.ChangelogLabel.Name = "ChangelogLabel";
+            this.ChangelogLabel.Size = new System.Drawing.Size(0, 13);
+            this.ChangelogLabel.TabIndex = 10;
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.panel1.Controls.Add(this.ChangelogLabel);
+            this.panel1.Location = new System.Drawing.Point(140, 113);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(337, 71);
+            this.panel1.TabIndex = 11;
+            // 
             // UpdateAvailable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button1;
-            this.ClientSize = new System.Drawing.Size(503, 192);
+            this.ClientSize = new System.Drawing.Size(503, 276);
             this.ControlBox = false;
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.newVersionLabel);
             this.Controls.Add(this.currentVersionLabel);
             this.Controls.Add(this.githubLink);
@@ -136,6 +170,8 @@
             this.Name = "UpdateAvailable";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update";
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,5 +187,8 @@
         private System.Windows.Forms.LinkLabel githubLink;
         private System.Windows.Forms.Label currentVersionLabel;
         private System.Windows.Forms.Label newVersionLabel;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label ChangelogLabel;
+        private System.Windows.Forms.Panel panel1;
     }
 }

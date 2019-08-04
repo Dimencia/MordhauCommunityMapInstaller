@@ -16,15 +16,16 @@ namespace Mordhau_Map_Installer
     {
         private bool disableUpdates = false;
 
-        public UpdateAvailable(string detectedVersion)
+        public UpdateAvailable(string detectedVersion, string url, string filename, string changelog)
         {
             InitializeComponent();
             currentVersionLabel.Text = Form1.VERSION;
             newVersionLabel.Text = detectedVersion;
             dontShowAgainBox.Checked = !Form1.checkForUpdates;
             githubLink.Links.Clear();
-            githubLink.Links.Add(6, 4, Form1.s_ProjectGithub);
-            githubLink.Text += $"MCMI{detectedVersion}.exe";
+            githubLink.Links.Add(6, 4, url);
+            githubLink.Text += filename;
+            ChangelogLabel.Text = changelog;
         }
 
         private void button1_Click(object sender, EventArgs e)
