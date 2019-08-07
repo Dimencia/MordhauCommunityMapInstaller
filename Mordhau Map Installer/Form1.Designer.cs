@@ -233,7 +233,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = Properties.Resources.str_Available_Maps;
+            this.label1.Text = "Available Maps";
             // 
             // InstallButton
             // 
@@ -324,7 +324,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = Properties.Resources.str_Installed_Maps;
+            this.label2.Text = "Installed Maps";
             // 
             // panel5
             // 
@@ -466,7 +466,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(125, 13);
             this.label5.TabIndex = 2;
-            this.label5.Text = "GameModes/Description";
+            this.label5.Text = "Filenames/Description";
             // 
             // label4
             // 
@@ -527,7 +527,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(484, 39);
             this.label3.TabIndex = 7;
-            this.label3.Text = Properties.Resources.str_Mordhau_Community_Maps_Installer;
+            this.label3.Text = "Mordhau Community Maps Installer";
             // 
             // panel3
             // 
@@ -570,7 +570,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = Properties.Resources.str_Mordhau_Community_Maps_Installer;
+            this.Text = "Mordhau Community Maps Installer";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
