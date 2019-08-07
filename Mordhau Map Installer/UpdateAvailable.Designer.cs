@@ -39,28 +39,29 @@
             this.label4 = new System.Windows.Forms.Label();
             this.ChangelogLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button1.Location = new System.Drawing.Point(217, 245);
+            this.button1.Location = new System.Drawing.Point(217, 250);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "OK";
+            this.button1.Text = Properties.Resources.str_OK;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dontShowAgainBox
             // 
             this.dontShowAgainBox.AutoSize = true;
-            this.dontShowAgainBox.Location = new System.Drawing.Point(22, 249);
+            this.dontShowAgainBox.Location = new System.Drawing.Point(22, 254);
             this.dontShowAgainBox.Name = "dontShowAgainBox";
             this.dontShowAgainBox.Size = new System.Drawing.Size(163, 17);
             this.dontShowAgainBox.TabIndex = 1;
-            this.dontShowAgainBox.Text = "Don\'t show on minor updates";
+            this.dontShowAgainBox.Text = Properties.Resources.str_Don_show_on_minor_updates;
             this.dontShowAgainBox.UseVisualStyleBackColor = true;
             this.dontShowAgainBox.CheckedChanged += new System.EventHandler(this.dontShowAgainBox_CheckedChanged);
             // 
@@ -72,7 +73,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(322, 20);
             this.label1.TabIndex = 2;
-            this.label1.Text = "A newer version of MCMI has been detected";
+            this.label1.Text = Properties.Resources.str_newer_version_of_MCMI_has_been;
             // 
             // label2
             // 
@@ -81,7 +82,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Your Version: ";
+            this.label2.Text = Properties.Resources.str_Your_Version;
             // 
             // label3
             // 
@@ -90,18 +91,19 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "New Version:";
+            this.label3.Text = Properties.Resources.str_New_Version;
             // 
             // githubLink
             // 
             this.githubLink.AutoSize = true;
+            this.githubLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.githubLink.LinkArea = new System.Windows.Forms.LinkArea(6, 4);
-            this.githubLink.Location = new System.Drawing.Point(63, 203);
+            this.githubLink.Location = new System.Drawing.Point(23, 203);
             this.githubLink.Name = "githubLink";
-            this.githubLink.Size = new System.Drawing.Size(306, 17);
+            this.githubLink.Size = new System.Drawing.Size(314, 24);
             this.githubLink.TabIndex = 6;
             this.githubLink.TabStop = true;
-            this.githubLink.Text = "Click here to visit the GitHub page where you can download ";
+            this.githubLink.Text = "Click here to download the updated file:  ";
             this.githubLink.UseCompatibleTextRendering = true;
             this.githubLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.githubLink_LinkClicked);
             // 
@@ -128,7 +130,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Changes:";
+            this.label4.Text = Properties.Resources.str_Changes;
             // 
             // ChangelogLabel
             // 
@@ -149,13 +151,23 @@
             this.panel1.Size = new System.Drawing.Size(337, 71);
             this.panel1.TabIndex = 11;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(92, 227);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(340, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = Properties.Resources.str_Once_you_have_downloaded_the_update;
+            // 
             // UpdateAvailable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button1;
-            this.ClientSize = new System.Drawing.Size(503, 276);
+            this.ClientSize = new System.Drawing.Size(503, 282);
             this.ControlBox = false;
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.newVersionLabel);
@@ -169,7 +181,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "UpdateAvailable";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Update";
+            this.Text = Properties.Resources.str_Update;
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -190,5 +202,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label ChangelogLabel;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label5;
     }
 }

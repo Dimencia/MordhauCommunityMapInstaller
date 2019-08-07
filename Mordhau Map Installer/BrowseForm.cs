@@ -5,11 +5,12 @@ namespace Mordhau_Map_Installer
 {
     public partial class BrowseForm : Form
     {
-        public BrowseForm()
+        public BrowseForm(string path)
         {
             InitializeComponent();
             SubmitButton.DialogResult = DialogResult.OK;
             CancelButton.DialogResult = DialogResult.Cancel;
+            textBox1.Text = path;
         }
 
         public string getResultText()

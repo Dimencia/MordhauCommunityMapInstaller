@@ -112,27 +112,27 @@
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_File;
             // 
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Refresh;
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
             this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
+            this.checkForUpdatesToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Check_for_Updates;
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Exit;
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
@@ -141,13 +141,13 @@
             this.setMordhauDirectoryToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Settings;
             // 
             // setMordhauDirectoryToolStripMenuItem
             // 
             this.setMordhauDirectoryToolStripMenuItem.Name = "setMordhauDirectoryToolStripMenuItem";
             this.setMordhauDirectoryToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.setMordhauDirectoryToolStripMenuItem.Text = "Set Mordhau Directory";
+            this.setMordhauDirectoryToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Set_Mordhau_Directory;
             this.setMordhauDirectoryToolStripMenuItem.Click += new System.EventHandler(this.setMordhauDirectoryToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -157,20 +157,20 @@
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Help;
             // 
             // basicHelpToolStripMenuItem
             // 
             this.basicHelpToolStripMenuItem.Name = "basicHelpToolStripMenuItem";
             this.basicHelpToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.basicHelpToolStripMenuItem.Text = "Basic Help";
+            this.basicHelpToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Basic_Help;
             this.basicHelpToolStripMenuItem.Click += new System.EventHandler(this.basicHelpToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_About;
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // panel1
@@ -211,19 +211,20 @@
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectAllToolStripMenuItem.Text = "Select All";
+            this.selectAllToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Select_All;
             // 
             // selectNoneToolStripMenuItem
             // 
             this.selectNoneToolStripMenuItem.Name = "selectNoneToolStripMenuItem";
             this.selectNoneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.selectNoneToolStripMenuItem.Text = "Select None";
+            this.selectNoneToolStripMenuItem.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Select_None;
             // 
             // refreshToolStripMenuItem1
             // 
             this.refreshToolStripMenuItem1.Name = "refreshToolStripMenuItem1";
             this.refreshToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
-            this.refreshToolStripMenuItem1.Text = "Refresh";
+            this.refreshToolStripMenuItem1.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Refresh;
+            this.refreshToolStripMenuItem1.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -232,7 +233,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Available Maps";
+            this.label1.Text = Properties.Resources.str_Available_Maps;
             // 
             // InstallButton
             // 
@@ -245,7 +246,7 @@
             this.InstallButton.Name = "InstallButton";
             this.InstallButton.Size = new System.Drawing.Size(312, 21);
             this.InstallButton.TabIndex = 2;
-            this.InstallButton.Text = "Install";
+            this.InstallButton.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Install;
             this.InstallButton.UseVisualStyleBackColor = false;
             this.InstallButton.Click += new System.EventHandler(this.InstallButton_Click);
             // 
@@ -286,19 +287,20 @@
             // 
             this.selectAllToolStripMenuItem1.Name = "selectAllToolStripMenuItem1";
             this.selectAllToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
-            this.selectAllToolStripMenuItem1.Text = "Select All";
+            this.selectAllToolStripMenuItem1.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Select_All;
             // 
             // selectNoneToolStripMenuItem1
             // 
             this.selectNoneToolStripMenuItem1.Name = "selectNoneToolStripMenuItem1";
             this.selectNoneToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
-            this.selectNoneToolStripMenuItem1.Text = "Select None";
+            this.selectNoneToolStripMenuItem1.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Select_None;
             // 
             // refreshToolStripMenuItem2
             // 
             this.refreshToolStripMenuItem2.Name = "refreshToolStripMenuItem2";
             this.refreshToolStripMenuItem2.Size = new System.Drawing.Size(137, 22);
-            this.refreshToolStripMenuItem2.Text = "Refresh";
+            this.refreshToolStripMenuItem2.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Refresh;
+            this.refreshToolStripMenuItem2.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // RemoveButton
             // 
@@ -311,7 +313,7 @@
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(311, 21);
             this.RemoveButton.TabIndex = 4;
-            this.RemoveButton.Text = "Remove";
+            this.RemoveButton.Text = global::Mordhau_Map_Installer.Properties.Resources.str_Remove;
             this.RemoveButton.UseVisualStyleBackColor = false;
             this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
@@ -322,7 +324,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Installed Maps";
+            this.label2.Text = Properties.Resources.str_Installed_Maps;
             // 
             // panel5
             // 
@@ -351,6 +353,7 @@
             // MapDescriptionLabel
             // 
             this.MapDescriptionLabel.AutoSize = true;
+            this.MapDescriptionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MapDescriptionLabel.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
             this.MapDescriptionLabel.Location = new System.Drawing.Point(131, 15);
             this.MapDescriptionLabel.Name = "MapDescriptionLabel";
@@ -360,6 +363,7 @@
             // MapSuggestedPlayersLabel
             // 
             this.MapSuggestedPlayersLabel.AutoSize = true;
+            this.MapSuggestedPlayersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MapSuggestedPlayersLabel.Location = new System.Drawing.Point(131, 90);
             this.MapSuggestedPlayersLabel.Name = "MapSuggestedPlayersLabel";
             this.MapSuggestedPlayersLabel.Size = new System.Drawing.Size(0, 13);
@@ -377,6 +381,7 @@
             // MapSizeLabel
             // 
             this.MapSizeLabel.AutoSize = true;
+            this.MapSizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MapSizeLabel.Location = new System.Drawing.Point(131, 75);
             this.MapSizeLabel.Name = "MapSizeLabel";
             this.MapSizeLabel.Size = new System.Drawing.Size(0, 13);
@@ -394,6 +399,7 @@
             // MapReleaseDateLabel
             // 
             this.MapReleaseDateLabel.AutoSize = true;
+            this.MapReleaseDateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MapReleaseDateLabel.Location = new System.Drawing.Point(131, 60);
             this.MapReleaseDateLabel.Name = "MapReleaseDateLabel";
             this.MapReleaseDateLabel.Size = new System.Drawing.Size(0, 13);
@@ -411,6 +417,7 @@
             // MapVersionLabel
             // 
             this.MapVersionLabel.AutoSize = true;
+            this.MapVersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MapVersionLabel.Location = new System.Drawing.Point(131, 45);
             this.MapVersionLabel.Name = "MapVersionLabel";
             this.MapVersionLabel.Size = new System.Drawing.Size(0, 13);
@@ -428,6 +435,7 @@
             // MapAuthorsLabel
             // 
             this.MapAuthorsLabel.AutoSize = true;
+            this.MapAuthorsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MapAuthorsLabel.Location = new System.Drawing.Point(131, 30);
             this.MapAuthorsLabel.Name = "MapAuthorsLabel";
             this.MapAuthorsLabel.Size = new System.Drawing.Size(0, 13);
@@ -445,6 +453,7 @@
             // MapNameLabel
             // 
             this.MapNameLabel.AutoSize = true;
+            this.MapNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MapNameLabel.Location = new System.Drawing.Point(131, 0);
             this.MapNameLabel.Name = "MapNameLabel";
             this.MapNameLabel.Size = new System.Drawing.Size(0, 13);
@@ -518,7 +527,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(484, 39);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Mordhau Community Maps Installer";
+            this.label3.Text = Properties.Resources.str_Mordhau_Community_Maps_Installer;
             // 
             // panel3
             // 
@@ -561,7 +570,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mordhau Community Maps Installer";
+            this.Text = Properties.Resources.str_Mordhau_Community_Maps_Installer;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);

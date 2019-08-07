@@ -42,7 +42,7 @@
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(75, 23);
             this.SubmitButton.TabIndex = 0;
-            this.SubmitButton.Text = "Save";
+            this.SubmitButton.Text = Properties.Resources.str_Save;
             this.SubmitButton.UseVisualStyleBackColor = true;
             // 
             // BrowseButton
@@ -51,7 +51,7 @@
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(75, 23);
             this.BrowseButton.TabIndex = 1;
-            this.BrowseButton.Text = "Browse";
+            this.BrowseButton.Text = Properties.Resources.str_Browse;
             this.BrowseButton.UseVisualStyleBackColor = true;
             this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
             // 
@@ -69,7 +69,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(390, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Please select the location of your BASE Mordhau installation - not the maps folde" +
+            this.label1.Text = Properties.Resources.str_Please_select_the_location_of_your +
     "r";
             // 
             // CancelButton
@@ -78,12 +78,12 @@
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 4;
-            this.CancelButton.Text = "Cancel";
+            this.CancelButton.Text = Properties.Resources.str_Cancel;
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
             // folderBrowserDialog1
             // 
-            this.folderBrowserDialog1.Description = "Select your Mordhau folder, usually under Steam/SteamApps/Common";
+            this.folderBrowserDialog1.Description = Properties.Resources.str_Select_your_Mordhau_folder_usually;
             // 
             // BrowseForm
             // 

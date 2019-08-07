@@ -118,189 +118,189 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="str_Author" xml:space="preserve">
-    <value>Author(s)</value>
+    <value>作者</value>
   </data>
   <data name="str_Downloading_name_as_folderName_zip" xml:space="preserve">
-    <value>Downloading</value>
+    <value>正在以 </value>
   </data>
   <data name="str_Error_while_updating_maps_File" xml:space="preserve">
-    <value>Error while updating maps.  File -&gt; Refresh to try again</value>
+    <value>更新地图时出错，请单击文件→刷新重试</value>
   </data>
   <data name="str_Installed_Maps" xml:space="preserve">
-    <value>Installed Maps</value>
+    <value>已安装地图</value>
   </data>
   <data name="str_Successfully_deleted_name" xml:space="preserve">
-    <value>Successfully deleted</value>
+    <value>地图 移除成功</value>
   </data>
   <data name="str_Failed_to_check_for_updates" xml:space="preserve">
-    <value>Failed to check for updates</value>
+    <value>检查更新失败</value>
   </data>
   <data name="str_About" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
   </data>
   <data name="str_Some_maps_contain_multiple_gamemodes" xml:space="preserve">
-    <value>Some maps contain multiple gamemodes; check the Description to get their names</value>
+    <value>有的地图是可以玩多人模式的，请在描述中查看(带模式前缀的)地图名称</value>
   </data>
   <data name="str_File_Size" xml:space="preserve">
-    <value>File Size</value>
+    <value>文件大小</value>
   </data>
   <data name="str_You_will_sometimes_need_to_restart" xml:space="preserve">
-    <value>You will sometimes need to restart Mordhau after installing maps, if it's already open</value>
+    <value>如果游戏处于运行状态，请在安装地图之后重启游戏</value>
   </data>
   <data name="str_File" xml:space="preserve">
-    <value>File</value>
+    <value>文件</value>
   </data>
   <data name="str_Welcome_to_the_Mordhau_Community_Map" xml:space="preserve">
-    <value>Welcome to the Mordhau Community Map Installer</value>
+    <value>欢迎使用Mordhau社区地图安装器</value>
   </data>
   <data name="str_Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>设置</value>
   </data>
   <data name="str_Beginning_install_for" xml:space="preserve">
-    <value>Beginning install for </value>
+    <value>开始安装</value>
   </data>
   <data name="str_New_Version" xml:space="preserve">
-    <value>New Version:</value>
+    <value>新版本:</value>
   </data>
   <data name="str_Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>浏览</value>
   </data>
   <data name="str_Contact_Moderator_or_Mentia_in" xml:space="preserve">
-    <value>Contact a Moderator or @D.Mentia in Discord for help</value>
+    <value>在Discord联系管理员或者@D.Mentia</value>
   </data>
   <data name="str_Once_you_have_downloaded_the_update" xml:space="preserve">
-    <value>Once you have downloaded the update, you should delete this version</value>
+    <value>下载完新版本之后，请删除现版本</value>
   </data>
   <data name="str_newer_version_of_MCMI_has_been" xml:space="preserve">
-    <value>A newer version of MCMI has been detected</value>
+    <value>检测到新版本</value>
   </data>
   <data name="str_Select_None" xml:space="preserve">
-    <value>Select None</value>
+    <value>全不选</value>
   </data>
   <data name="str_Successfully_installed_name" xml:space="preserve">
-    <value>Successfully installed</value>
+    <value>地图 安装成功</value>
   </data>
   <data name="str_Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>刷新</value>
   </data>
   <data name="str_Help" xml:space="preserve">
-    <value>Help</value>
+    <value>帮助</value>
   </data>
   <data name="str_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>移除</value>
   </data>
   <data name="str_To_play_installed_maps_locally_open" xml:space="preserve">
-    <value>To play installed maps locally, open the Mordhau console and type "open MapName"</value>
+    <value>在本地游玩地图，请在控制台输入"open 地图名"</value>
   </data>
   <data name="str_Update" xml:space="preserve">
-    <value>Update</value>
+    <value>更新</value>
   </data>
   <data name="str_Check_for_Updates" xml:space="preserve">
-    <value>Check for Updates</value>
+    <value>检查更新</value>
   </data>
   <data name="str_Changes" xml:space="preserve">
-    <value>Changes:</value>
+    <value>改动:</value>
   </data>
   <data name="str_Don_show_on_minor_updates" xml:space="preserve">
-    <value>Don't show on minor updates</value>
+    <value>不要在次要更新中显示</value>
   </data>
   <data name="str_Your_Version" xml:space="preserve">
-    <value>Your Version: </value>
+    <value>你的版本：</value>
   </data>
   <data name="str_Save" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="str_Set_Mordhau_Directory" xml:space="preserve">
-    <value>Set Mordhau Directory</value>
+    <value>设置Mordhau目录</value>
   </data>
   <data name="str_Created_by_Mentia" xml:space="preserve">
     <value>Created by D.Mentia © 2019</value>
   </data>
   <data name="str_Map_Name" xml:space="preserve">
-    <value>Map Name</value>
+    <value>地图名</value>
   </data>
   <data name="str_Ready" xml:space="preserve">
-    <value>Ready</value>
+    <value>完成</value>
   </data>
   <data name="str_No_updates_found" xml:space="preserve">
-    <value>No updates found</value>
+    <value>没有更新内容</value>
   </data>
   <data name="str_If_you_do_not_see_any_available_maps_or" xml:space="preserve">
-    <value>If you do not see any available maps or encounter any bugs, please contact Moderators on Discord</value>
+    <value>如果显示没有地图或者遇到任何BUG，请联系发邮件到3381933811@qq.com，我会联系管理员</value>
   </data>
   <data name="str_Select_All" xml:space="preserve">
-    <value>Select All</value>
+    <value>全选</value>
   </data>
   <data name="str_Release_Date" xml:space="preserve">
-    <value>Release Date</value>
+    <value>上传日期</value>
   </data>
   <data name="str_Mordhau_Community_Maps_Installer" xml:space="preserve">
-    <value>Mordhau Community Maps Installer</value>
+    <value>一起玩社区地图，请加Q群：712477773</value>
   </data>
   <data name="str_Version" xml:space="preserve">
-    <value>Version</value>
+    <value>版本</value>
   </data>
   <data name="str_GameModes_Description" xml:space="preserve">
-    <value>GameModes/Description</value>
+    <value>游戏模式/描述</value>
   </data>
   <data name="str_Available_Maps" xml:space="preserve">
-    <value>Available Maps</value>
+    <value>可用地图</value>
   </data>
   <data name="str_This_message_will_show_once_and_can_be" xml:space="preserve">
-    <value>This message will show once, and can be accessed through the Help menu</value>
+    <value>此消息将显示一次，也可以通过“帮助”菜单访问</value>
   </data>
   <data name="str_Invalid_Mordhau_Path_please_re_enter" xml:space="preserve">
-    <value>Invalid Mordhau Path, please re-enter through Settings</value>
+    <value>Mordhau位置错误，请在设置中重设</value>
   </data>
   <data name="str_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="str_Suggested_Players" xml:space="preserve">
-    <value>Suggested Players</value>
+    <value>建议玩家数</value>
   </data>
   <data name="str_Install" xml:space="preserve">
-    <value>Install</value>
+    <value>安装</value>
   </data>
   <data name="str_Select_your_Mordhau_folder_usually" xml:space="preserve">
-    <value>Select your Mordhau folder, usually under Steam/SteamApps/Common</value>
+    <value>选择你的Mordhau文件夹，一般在Steam/SteamApps/Common下</value>
   </data>
   <data name="str_Exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>退出</value>
   </data>
   <data name="str_Right_click_on_either_installed_or" xml:space="preserve">
-    <value>Right-click on either installed or available maps to Select All or Select None</value>
+    <value>右键可用地图或已安装地图来全选或全不选</value>
   </data>
   <data name="str_For_extended_help_visit_the" xml:space="preserve">
-    <value>For extended help, visit the </value>
+    <value>若需要更多帮助，请前往</value>
   </data>
   <data name="str_All_maps_installed_You_may_need_to" xml:space="preserve">
-    <value>All maps installed - You may need to restart Mordhau</value>
+    <value>所有地图已安装完成，请重新启动Mordhau</value>
   </data>
   <data name="str_OK" xml:space="preserve">
-    <value>OK</value>
+    <value>OJBK</value>
   </data>
   <data name="str_Invalid_Mordhau_path_Re_set_it_in" xml:space="preserve">
-    <value>Invalid Mordhau path!  Re-set it in Settings before doing anything</value>
+    <value>Mordhau位置错误！在搞事前请在设置中重设</value>
   </data>
   <data name="str_For_Mordhau_Mapping_Modding" xml:space="preserve">
-    <value>For Mordhau Mapping &amp;&amp; Modding</value>
+    <value>关于 Mordhau Mapping &amp;&amp; Modding</value>
   </data>
   <data name="str_Refresh_Failed" xml:space="preserve">
-    <value>Refresh Failed</value>
+    <value>刷新失败</value>
   </data>
   <data name="str_Invalid_Mordhau_Path_Re_set_through" xml:space="preserve">
-    <value>Invalid Mordhau Path!  Re-set through Settings</value>
+    <value>Mordhau位置错误！在设置中重设</value>
   </data>
   <data name="str_Failed_during_installation_Message" xml:space="preserve">
-    <value>Failed during installation: </value>
+    <value>安装失败: </value>
   </data>
   <data name="str_Please_select_the_location_of_your" xml:space="preserve">
-    <value>Please select the location of your BASE Mordhau installation - not the maps folder</value>
+    <value>请选择Mordhau安装目录地址 (注意不是Maps的地址)</value>
   </data>
   <data name="str_Basic_Help" xml:space="preserve">
-    <value>Basic Help</value>
+    <value>基础帮助</value>
   </data>
   <data name="str_Installed_Map" xml:space="preserve">
-    <value>Installed Map</value>
+    <value>已安装地图</value>
   </data>
 </root>

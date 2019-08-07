@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Resources;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,7 +29,10 @@ namespace Mordhau_Map_Installer
             s_InfoFilesZip = $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\InfoFiles.zip",
             s_ProjectGithub = @"https://github.com/Dimencia/MordhauCommunityMapInstaller",
             s_DisableUpdatesFile = $@"{s_AppData}\noupdates.txt",
-            configPath = $@"{s_AppData}\config.txt";
+            configPath = $@"{s_AppData}\config.txt",
+            s_InfoFilesURL = @"https://github.com/MordhauMappingModding/InfoFiles/archive/master.zip",
+            s_InfoFilesFolder = @"InfoFiles-master\";
+        // InfoFiles-master
 
         private readonly Image m_DefaultThumbnail;
         private string m_MordhauPath = string.Empty;
@@ -36,6 +40,7 @@ namespace Mordhau_Map_Installer
 
         public Form1()
         {
+            System.Globalization.CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en");
             InitializeComponent();
             AvailableMapsBox.SelectedValueChanged += AvailableMapsBoxOnSelectedValueChanged;
             InstalledMapsBox.SelectedValueChanged += AvailableMapsBoxOnSelectedValueChanged;
@@ -49,6 +54,8 @@ namespace Mordhau_Map_Installer
             string version = ApplicationDeployment.IsNetworkDeployed ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4) : VERSION;
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            
 
             Directory.CreateDirectory($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\");
 
@@ -100,7 +107,7 @@ namespace Mordhau_Map_Installer
                     if (!m_MordhauPath.ToLower().Contains(MAPS_PATH) || !Directory.Exists(m_MordhauPath))
                     {
                         Log($"Mordhau Path: {m_MordhauPath}");
-                        Log($"Invalid Mordhau Path, please re-enter through Settings: {m_MordhauPath}");
+                        Log(Properties.Resources.str_Invalid_Mordhau_Path_please_re_enter);
                     }
                 }
                 else // If we're here, the directory exists and we have one
@@ -175,7 +182,7 @@ namespace Mordhau_Map_Installer
                 return;
             RemoveButton.Enabled = false;
             InstallButton.Enabled = false;
-            Log("Invalid Mordhau path!  Re-set it in Settings before doing anything");
+            Log(Properties.Resources.str_Invalid_Mordhau_path_Re_set_it_in);
         }
 
         private void CheckForUpdates(bool manual = false)
@@ -206,14 +213,14 @@ namespace Mordhau_Map_Installer
                         return;
                     }
                     else
-                        Log("No updates found");
+                        Log(Properties.Resources.str_No_updates_found);
                 }
             }
             catch (Exception e)
             {
                 Log(e.Message);
                 Log(e.StackTrace);
-                Log("Failed to check for updates");
+                Log(Properties.Resources.str_Failed_to_check_for_updates);
             }
         }
 
@@ -266,8 +273,7 @@ namespace Mordhau_Map_Installer
                 Log("Downloading file");
                 using (var wc = new WebClient())
                 {
-                    wc.DownloadFile(
-                        @"https://github.com/MordhauMappingModding/InfoFiles/archive/master.zip",
+                    wc.DownloadFile(s_InfoFilesURL,
                         s_InfoFilesZip);
                 }
 
@@ -290,7 +296,7 @@ namespace Mordhau_Map_Installer
                 File.Delete(s_InfoFilesZip);
 
                 Log("Checking resulting files");
-                foreach (string s in Directory.GetFiles(s_InfoFiles + @"InfoFiles-master\"))
+                foreach (string s in Directory.GetFiles(s_InfoFiles + s_InfoFilesFolder))
                 {
                     var m = new Map();
                     // Open the file, get it into a string, and split it on newlines
@@ -328,13 +334,13 @@ namespace Mordhau_Map_Installer
                 UpdateAvailableMaps();
                 CheckMapUpdates();
                 Update();
-                Log("Ready");
+                Log(Properties.Resources.str_Ready);
             }
             catch (Exception e)
             {
                 Log(e.Message);
                 Log(e.StackTrace);
-                Log("Error while updating maps.  File -> Refresh to try again");
+                Log(Properties.Resources.str_Error_while_updating_maps_File);
             }
         }
 
@@ -352,20 +358,20 @@ namespace Mordhau_Map_Installer
             {
                 Log(e.Message);
                 Log(e.StackTrace);
-                Log("Refresh Failed");
+                Log(Properties.Resources.str_Refresh_Failed);
             }
         }
 
         private void ShowMordhauPathDialog()
         {
-            var browseForm = new BrowseForm();
+            var browseForm = new BrowseForm(m_MordhauPath);
             DialogResult result = browseForm.ShowDialog();
             if (result == DialogResult.OK)
             {
                 if (!browseForm.getResultText().ToLower().Contains("mordhau") || !Directory.Exists(browseForm.getResultText()) || !File.Exists($@"{browseForm.getResultText()}\Mordhau.exe"))
                 {
                     m_MordhauPath = string.Empty;
-                    Log("Invalid Mordhau Path!  Re-set through Settings");
+                    Log(Properties.Resources.str_Invalid_Mordhau_Path_Re_set_through);
                 }
                 else
                 {
@@ -447,12 +453,13 @@ namespace Mordhau_Map_Installer
             // This is meant to be called once for each map being installed
             // Once we count that we've installed them all we can do things
             numMapsInstalled++;
-            Log($"Installed {numMapsInstalled} of {numMapsInstalling} maps");
+            Log($"{Properties.Resources.str_Installed_Map} {numMapsInstalled} of {numMapsInstalling}");
             if (numMapsInstalled >= numMapsInstalling)
             {
                 UpdateInstalledMaps();
-                CheckMapUpdates();
-                Log("All maps installed - You may need to restart Mordhau");
+                if (InvokeRequired)
+                    Invoke((MethodInvoker) delegate { CheckMapUpdates(); });
+                Log(Properties.Resources.str_All_maps_installed_You_may_need_to);
             }
         }
 
@@ -470,7 +477,7 @@ namespace Mordhau_Map_Installer
             InstallButton.Enabled = false;
             foreach (Map m in AvailableMapsBox.CheckedItems)
             {
-                Log("Beginning install for " + m.name);
+                Log(Properties.Resources.str_Beginning_install_for + m.name);
                 Task.Run(async () => {
                     await InstallMap(m);
                     lock (countingLocker)
@@ -537,30 +544,38 @@ namespace Mordhau_Map_Installer
 
         private void CheckMapUpdates()
         {
-            foreach (Map m in Map.maps)
+            try
             {
-                foreach (Map y in Map.installed.Where(z =>
-                    z.folderName.Equals(m.folderName) && !z.version.Equals(m.version) && !z.needsUpdate))
+                // Screw it, first remove all outdated and update tags
+                foreach (Map m in Map.maps)
                 {
-                    y.needsUpdate = true;
-                    y.name = $"[OUTDATED] {y.name}";
-                    m.needsUpdate = true;
-                    m.name = $"[UPDATED] {m.name}";
-                }
-
-                foreach (Map y in Map.installed.Where(z =>
-                    z.folderName.Equals(m.folderName) && z.version.Equals(m.version)))
-                {
-                    // If it thinks they need an update, but they don't, fix it
-                    y.needsUpdate = false;
-                    y.name = y.name.Replace("[OUTDATED] ", "");
-                    m.needsUpdate = false;
                     m.name = m.name.Replace("[UPDATED] ", "");
                 }
-            }
 
-            AvailableMapsBox.Refresh();
-            InstalledMapsBox.Refresh();
+                foreach (Map m in Map.installed)
+                {
+                    m.name = m.name.Replace("[OUTDATED] ", "");
+                }
+
+                foreach (Map m in Map.maps)
+                {
+                    foreach (Map y in Map.installed.Where(z =>
+                        z.folderName.Equals(m.folderName) && !z.version.Equals(m.version)))
+                    {
+                        y.name = $"[OUTDATED] {y.name}";
+                        m.name = $"[UPDATED] {m.name}";
+                    }
+                }
+
+                AvailableMapsBox.Refresh();
+                InstalledMapsBox.Refresh();
+            }
+            catch (Exception e)
+            {
+                Log(e.Message);
+                Log(e.StackTrace);
+                Log("Error checking map updates");
+            }
         }
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -572,7 +587,7 @@ namespace Mordhau_Map_Installer
         {
             try
             {
-                Log($@"Downloading {m.name} as \{m.folderName}.zip");
+                Log(Properties.Resources.str_Downloading_name_as_folderName_zip + $" {m.folderName}.zip");
                 // https://github.com/MordhauMappingModding/MapFiles/blob/master/BerzerkerArena.zip
                 // This fucking api can't handle downloading zip files so I have to do it by hand and hope we don't ratelimit
                 using (var wc = new WebClient())
@@ -592,13 +607,13 @@ namespace Mordhau_Map_Installer
                 Log($"Deleting {m.name}");
                 File.Delete($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\{m.folderName}.zip");
                 // Copy over the info file
-                File.Copy($@"{s_InfoFiles}InfoFiles-master\{m.folderName}.info.txt",
+                File.Copy($@"{s_InfoFiles}{s_InfoFilesFolder}\{m.folderName}.info.txt",
                     $@"{m_MordhauPath}{m.folderName}\{m.folderName}.info.txt", true);
-                Log($"Successfully installed {m.name}");
+                Log(Properties.Resources.str_Successfully_installed_name + m.name);
             }
             catch (Exception e)
             {
-                Log($"Failed during installation: {e.Message}");
+                Log(Properties.Resources.str_Failed_during_installation_Message + e.Message);
             }
         }
 
@@ -609,7 +624,7 @@ namespace Mordhau_Map_Installer
                 try
                 {
                     Directory.Delete($"{m_MordhauPath}{m.folderName}", true);
-                    Log($"Successfully deleted {m.name}");
+                    Log(Properties.Resources.str_Successfully_deleted_name + m.name);
                 }
                 catch (Exception ex)
                 {
@@ -645,6 +660,7 @@ namespace Mordhau_Map_Installer
                 UpdateInstalledMaps();
                 Log("Refreshing...");
                 CheckContents();
+                CheckMapUpdates();
             }
             catch (Exception ex)
             {

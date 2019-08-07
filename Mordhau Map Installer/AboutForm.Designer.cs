@@ -44,7 +44,7 @@
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 0;
-            this.OKButton.Text = "OK";
+            this.OKButton.Text = Properties.Resources.str_OK;
             this.OKButton.UseVisualStyleBackColor = true;
             // 
             // label1
@@ -54,7 +54,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(143, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Created by D.Mentia © 2019";
+            this.label1.Text = Properties.Resources.str_Created_by_Mentia;
             // 
             // linkLabel1
             // 
@@ -65,7 +65,7 @@
             this.linkLabel1.Size = new System.Drawing.Size(172, 17);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "For Mordhau Mapping && Modding";
+            this.linkLabel1.Text = Properties.Resources.str_For_Mordhau_Mapping_Modding;
             this.linkLabel1.UseCompatibleTextRendering = true;
             // 
             // label2
@@ -75,7 +75,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(261, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Contact a Moderator or @D.Mentia in Discord for help";
+            this.label2.Text = Properties.Resources.str_Contact_Moderator_or_Mentia_in;
             // 
             // pictureBox1
             // 

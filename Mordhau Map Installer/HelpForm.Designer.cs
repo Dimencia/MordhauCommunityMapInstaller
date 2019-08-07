@@ -47,7 +47,7 @@
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 1;
-            this.OKButton.Text = "OK";
+            this.OKButton.Text = Properties.Resources.str_OK;
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
@@ -59,7 +59,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(365, 20);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Welcome to the Mordhau Community Map Installer";
+            this.label1.Text = Properties.Resources.str_Welcome_to_the_Mordhau_Community_Map;
             // 
             // label2
             // 
@@ -68,7 +68,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(137, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "For extended help, visit the ";
+            this.label2.Text = Properties.Resources.str_For_extended_help_visit_the;
             // 
             // discordlink
             // 
@@ -87,7 +87,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(409, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "To play installed maps locally, open the Mordhau console and type \"open MapName\"";
+            this.label4.Text = Properties.Resources.str_To_play_installed_maps_locally_open;
             // 
             // label5
             // 
@@ -96,8 +96,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(474, 13);
             this.label5.TabIndex = 7;
-            this.label5.Text = "If you do not see any available maps or encounter any bugs, please contact Modera" +
-    "tors on Discord";
+            this.label5.Text = Properties.Resources.str_If_you_do_not_see_any_available_maps_or;
             // 
             // label6
             // 
@@ -106,7 +105,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(364, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "This message will show once, and can be accessed through the Help menu";
+            this.label6.Text = Properties.Resources.str_This_message_will_show_once_and_can_be;
             // 
             // label8
             // 
@@ -115,7 +114,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(360, 13);
             this.label8.TabIndex = 8;
-            this.label8.Text = "Right-click on either installed or available maps to Select All or Select None";
+            this.label8.Text = Properties.Resources.str_Right_click_on_either_installed_or;
             // 
             // label3
             // 
@@ -124,8 +123,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(396, 13);
             this.label3.TabIndex = 9;
-            this.label3.Text = "You will sometimes need to restart Mordhau after installing maps, if it\'s already" +
-    " open";
+            this.label3.Text = Properties.Resources.str_You_will_sometimes_need_to_restart;
             // 
             // label7
             // 
@@ -134,7 +132,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(395, 13);
             this.label7.TabIndex = 10;
-            this.label7.Text = "Some maps contain multiple gamemodes; check the Description to get their names";
+            this.label7.Text = Properties.Resources.str_Some_maps_contain_multiple_gamemodes;
             // 
             // HelpForm
             // 
@@ -156,7 +154,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "HelpForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Basic Help";
+            this.Text = Properties.Resources.str_Basic_Help;
             this.ResumeLayout(false);
             this.PerformLayout();
 
