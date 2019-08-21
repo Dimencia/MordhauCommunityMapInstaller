@@ -45,7 +45,7 @@ namespace Mordhau_Map_Installer
 
         public Form1()
         {
-            System.Globalization.CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+            //System.Globalization.CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("zh-CN");
             InitializeComponent();
             AvailableMapsBox.SelectedValueChanged += AvailableMapsBoxOnSelectedValueChanged;
             InstalledMapsBox.SelectedValueChanged += AvailableMapsBoxOnSelectedValueChanged;
