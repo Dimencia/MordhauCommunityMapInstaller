@@ -79,6 +79,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.thumbnailBox = new System.Windows.Forms.PictureBox();
+            this.progressBar1 = new Mordhau_Map_Installer.CustomProgressBar();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -233,7 +234,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Available Maps";
+            this.label1.Text = Properties.Resources.str_Available_Maps;
             // 
             // InstallButton
             // 
@@ -324,7 +325,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Installed Maps";
+            this.label2.Text = Properties.Resources.str_Installed_Maps;
             // 
             // panel5
             // 
@@ -376,7 +377,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(95, 13);
             this.label10.TabIndex = 13;
-            this.label10.Text = "Suggested Players";
+            this.label10.Text = Properties.Resources.str_Suggested_Players;
             // 
             // MapSizeLabel
             // 
@@ -394,7 +395,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(46, 13);
             this.label9.TabIndex = 11;
-            this.label9.Text = "File Size";
+            this.label9.Text = Properties.Resources.str_File_Size;
             // 
             // MapReleaseDateLabel
             // 
@@ -412,7 +413,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(72, 13);
             this.label8.TabIndex = 9;
-            this.label8.Text = "Release Date";
+            this.label8.Text = Properties.Resources.str_Release_Date;
             // 
             // MapVersionLabel
             // 
@@ -430,7 +431,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(42, 13);
             this.label7.TabIndex = 7;
-            this.label7.Text = "Version";
+            this.label7.Text = Properties.Resources.str_Version;
             // 
             // MapAuthorsLabel
             // 
@@ -448,7 +449,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 5;
-            this.label6.Text = "Author(s)";
+            this.label6.Text = Properties.Resources.str_Author;
             // 
             // MapNameLabel
             // 
@@ -464,9 +465,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(3, 15);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(125, 13);
+            this.label5.Size = new System.Drawing.Size(112, 13);
             this.label5.TabIndex = 2;
-            this.label5.Text = "Filenames/Description";
+            this.label5.Text = Properties.Resources.str_GameModes_Description;
             // 
             // label4
             // 
@@ -475,7 +476,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 13);
             this.label4.TabIndex = 1;
-            this.label4.Text = "Map Name";
+            this.label4.Text = Properties.Resources.str_Map_Name;
             // 
             // statusStrip1
             // 
@@ -527,7 +528,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(484, 39);
             this.label3.TabIndex = 7;
-            this.label3.Text = "Mordhau Community Maps Installer";
+            this.label3.Text = Properties.Resources.str_Mordhau_Community_Maps_Installer;
             // 
             // panel3
             // 
@@ -552,12 +553,25 @@
             this.thumbnailBox.TabIndex = 9;
             this.thumbnailBox.TabStop = false;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.progressBar1.CustomText = " ";
+            this.progressBar1.DisplayStyle = Mordhau_Map_Installer.ProgressBarDisplayText.CustomText;
+            this.progressBar1.ForeColor = System.Drawing.Color.DarkSeaGreen;
+            this.progressBar1.Location = new System.Drawing.Point(12, 340);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(696, 21);
+            this.progressBar1.TabIndex = 8;
+            this.progressBar1.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(719, 683);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.thumbnailBox);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.statusStrip1);
@@ -570,7 +584,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mordhau Community Maps Installer";
+            this.Text = Properties.Resources.str_Mordhau_Community_Maps_Installer;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -643,6 +657,7 @@
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem2;
+        private CustomProgressBar progressBar1;
     }
 }
 

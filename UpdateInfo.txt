@@ -1,5 +1,5 @@
-1.1.0.3
-https://github.com/Dimencia/MordhauCommunityMapInstaller/
-MCMI1.1.0.3.exe
-false
-This adjusts the way we update to ensure we can let you know once our new Mod Manager is complete.  Also includes small fixes to the way things are displayed, particularly to clarify when a map provides multiple gamemodes.  Made map updates more obvious; fixed a connection issue on Windows 7; fixed crashes related to being unable to find the Mordhau path; ensured app always runs even if it fails to find a path
+1.1.0.4
+https://github.com/Dimencia/MordhauCommunityMapInstaller/releases
+MCMI1.1.0.4.exe
+true
+Allows download of large maps\nNo longer displays maps you already have installed as 'Available'\nAdded progress bar when downloading maps\n\nThis is marked as an Important update and will repeatedly prompt you to update, since you must update in order to be able to download and use our larger maps

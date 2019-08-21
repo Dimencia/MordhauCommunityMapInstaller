@@ -130,7 +130,7 @@
     <value>Installed Maps</value>
   </data>
   <data name="str_Successfully_deleted_name" xml:space="preserve">
-    <value>Successfully deleted</value>
+    <value>Successfully deleted </value>
   </data>
   <data name="str_Failed_to_check_for_updates" xml:space="preserve">
     <value>Failed to check for updates</value>
@@ -178,7 +178,7 @@
     <value>Select None</value>
   </data>
   <data name="str_Successfully_installed_name" xml:space="preserve">
-    <value>Successfully installed</value>
+    <value>Successfully installed </value>
   </data>
   <data name="str_Refresh" xml:space="preserve">
     <value>Refresh</value>
@@ -241,7 +241,7 @@
     <value>Version</value>
   </data>
   <data name="str_GameModes_Description" xml:space="preserve">
-    <value>GameModes/Description</value>
+    <value>Filenames/Description</value>
   </data>
   <data name="str_Available_Maps" xml:space="preserve">
     <value>Available Maps</value>
@@ -302,5 +302,8 @@
   </data>
   <data name="str_Installed_Map" xml:space="preserve">
     <value>Installed Map</value>
+  </data>
+  <data name="google_api_key" xml:space="preserve">
+    <value>AIzaSyBWnzD_EO6ZVrj4w5gzjwUNWG83FFexYRc</value>
   </data>
 </root>

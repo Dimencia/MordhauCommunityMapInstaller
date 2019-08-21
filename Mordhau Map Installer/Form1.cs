@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Resources;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -20,7 +21,7 @@ namespace Mordhau_Map_Installer
 {
     public partial class Form1 : Form
     {
-        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.3";
+        public const string MAPS_PATH = @"steamapps\common\mordhau\mordhau\content\mordhau\maps\", VERSION = "1.1.0.4";
 
         public static readonly string
             s_ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -33,10 +34,14 @@ namespace Mordhau_Map_Installer
             s_InfoFilesURL = @"https://github.com/MordhauMappingModding/InfoFiles/archive/master.zip",
             s_InfoFilesFolder = @"InfoFiles-master\";
         // InfoFiles-master
+        public static int maxSimultaneousMapDownloads = 10;
 
         private readonly Image m_DefaultThumbnail;
         private string m_MordhauPath = string.Empty;
         public static bool checkForUpdates = true;
+
+        //private int progressWidth = 696;
+        //private int progressHeight = 40;
 
         public Form1()
         {
@@ -50,12 +55,16 @@ namespace Mordhau_Map_Installer
             selectAllToolStripMenuItem1.Click += SelectAllToolStripMenuItem1OnClick;
             selectNoneToolStripMenuItem1.Click += SelectNoneToolStripMenuItem1OnClick;
             m_DefaultThumbnail = thumbnailBox.Image;
+            //696, 40
+            //progressWidth = progressBar1.Size.Width;
+            //progressHeight = progressBar1.Size.Height;
+            //progressBar1.Size = new Size(0,0);
 
             string version = ApplicationDeployment.IsNetworkDeployed ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4) : VERSION;
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            
+
 
             Directory.CreateDirectory($@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\");
 
@@ -75,7 +84,7 @@ namespace Mordhau_Map_Installer
             CheckForUpdates();
 
             // Next check if we have an ini file with mordhau location
-            
+
             if (File.Exists(configPath))
             {
                 using (var reader = new StreamReader(configPath))
@@ -127,7 +136,7 @@ namespace Mordhau_Map_Installer
 
         private void UpdateEverything()
         {
-            // Regardless let's save now
+            // Regardless let's save now... why am I doing it like this, no idea
             using (var writer = new StreamWriter(configPath))
             {
                 writer.WriteLine(m_MordhauPath);
@@ -137,6 +146,11 @@ namespace Mordhau_Map_Installer
             Log("Checking for maps...");
             // Then download the info files from github for available maps and update them
             CheckContents();
+            Log("Updating available maps");
+            UpdateAvailableMaps();
+            CheckMapUpdates();
+            Update();
+            Log(Properties.Resources.str_Ready);
         }
 
         private void SelectNoneToolStripMenuItem1OnClick(object sender, EventArgs e)
@@ -196,7 +210,7 @@ namespace Mordhau_Map_Installer
                     // https://github.com/Dimencia/MordhauCommunityMapInstaller/raw/master/UpdateInfo.txt
                     string contents = client.DownloadString("https://github.com/Dimencia/MordhauCommunityMapInstaller/raw/master/UpdateInfo.txt");
                     // Normalize line endings
-                    contents = contents.Replace("\r\n","\n");
+                    contents = contents.Replace("\r\n", "\n");
                     var lines = contents.Split('\n');
                     string version = lines[0];
                     string url = lines[1];
@@ -319,6 +333,11 @@ namespace Mordhau_Map_Installer
                                 m.suggestedPlayers = lines[MapVars.suggestedPlayers];
                             if (lines.Length > MapVars.thumbnailURL)
                                 m.thumbnailURL = lines[MapVars.thumbnailURL];
+                            if (lines.Length > MapVars.downloadURL && lines[MapVars.downloadURL].Length > 0)
+                                m.downloadURL = GetDownloadLink(lines[MapVars.downloadURL]);
+                            else
+                                m.downloadURL =
+                                    $@"https://github.com/MordhauMappingModding/MapFiles/blob/master/{m.folderName}.zip?raw=true";
                             Map.maps.Add(m);
                         }
 
@@ -329,12 +348,6 @@ namespace Mordhau_Map_Installer
                     }
 
                 }
-
-                Log("Updating available maps");
-                UpdateAvailableMaps();
-                CheckMapUpdates();
-                Update();
-                Log(Properties.Resources.str_Ready);
             }
             catch (Exception e)
             {
@@ -362,6 +375,55 @@ namespace Mordhau_Map_Installer
             }
         }
 
+        private string GetDownloadLink(string link)
+        {
+            // This parses a link and returns a direct download link
+            // If given a link other than GDrive, returns the same link
+            // Otherwise parses a gdrive link and returns an API key'd direct download
+
+            //Styles to expect:
+            //https://drive.google.com/open?id=1iUzGkUOXhaoxXy7thSd11cQs4I06aLXP
+            //https://drive.google.com/file/d/1iUzGkUOXhaoxXy7thSd11cQs4I06aLXP/view
+            //https://drive.google.com/uc?id=1iUzGkUOXhaoxXy7thSd11cQs4I06aLXP&export=download
+
+            if (!link.ToLower().Contains("https://drive.google.com/"))
+                return link;
+
+            string result = string.Empty;
+
+            if (link.Contains("?id="))
+            {
+                Regex reg = new Regex(@"\?id=([^&]*)");
+                var match = reg.Match(link);
+                if (match.Success)
+                {
+                    result = match.Groups[1].Value;
+                }
+                else
+                {
+                    Log($"Error parsing GDrive link {link}");
+                    return string.Empty;
+                }
+            }
+            else
+            {
+                Regex reg = new Regex(@"\/file\/d\/([^\/]*)");
+                var match = reg.Match(link);
+                if (match.Success)
+                {
+                    result = match.Groups[1].Value;
+                }
+                else
+                {
+                    Log($"Error parsing GDrive link {link}");
+                    return string.Empty;
+                }
+            }
+
+            return
+                $@"https://www.googleapis.com/drive/v3/files/{result}/?key={Properties.Resources.google_api_key}&alt=media";
+        }
+
         private void ShowMordhauPathDialog()
         {
             var browseForm = new BrowseForm(m_MordhauPath);
@@ -381,7 +443,7 @@ namespace Mordhau_Map_Installer
                 }
             }
             browseForm.Dispose();
-            
+
         }
 
         private delegate void SafeCallDelegate(string text);
@@ -448,20 +510,37 @@ namespace Mordhau_Map_Installer
 
         private delegate void SafeVoid();
 
-        private void CountInstallingMaps()
+        private async void CountInstallingMaps()
         {
             // This is meant to be called once for each map being installed
             // Once we count that we've installed them all we can do things
             numMapsInstalled++;
+            Invoke((MethodInvoker)delegate
+            {
+                progressBar1.Value = numMapsInstalled;
+            });
+
             Log($"{Properties.Resources.str_Installed_Map} {numMapsInstalled} of {numMapsInstalling}");
             if (numMapsInstalled >= numMapsInstalling)
             {
                 UpdateInstalledMaps();
-                if (InvokeRequired)
-                    Invoke((MethodInvoker) delegate { CheckMapUpdates(); });
-                Log(Properties.Resources.str_All_maps_installed_You_may_need_to);
+                await CheckContents();
+                Invoke((MethodInvoker)delegate
+               {
+                   progressBar1.Visible = false;
+                   CheckMapUpdates();
+               });
+                numMapsInstalled = 0;
+                numMapsInstalling = 0; // Just added these... probably not useful or necessary oh well
+                if (numFailedMaps == 0)
+                    Log(Properties.Resources.str_All_maps_installed_You_may_need_to);
+                else
+                    Log($"{numFailedMaps} maps failed to install, please retry");
+                numFailedMaps = 0;
             }
         }
+
+        private int numFailedMaps = 0;
 
         private int numMapsInstalling = 0;
         private int numMapsInstalled = 0;
@@ -475,14 +554,26 @@ namespace Mordhau_Map_Installer
             numMapsInstalled = 0;
 
             InstallButton.Enabled = false;
+            int mapNum = 0;
+            // Enable progress bars
+            progressBar1.Visible = true;
+            progressBar1.Value = 0;
+            progressBar1.Maximum = numMapsInstalling;
+            progressBar1.CustomText = $"{Properties.Resources.str_Beginning_install_for}{numMapsInstalling} maps...";
+
+            Refresh();
+
             foreach (Map m in AvailableMapsBox.CheckedItems)
             {
+                m.installNumber = mapNum;
                 Log(Properties.Resources.str_Beginning_install_for + m.name);
-                Task.Run(async () => {
-                    await InstallMap(m);
+                Task.Run(() =>
+                {
+                    InstallMap(m);
                     lock (countingLocker)
                         CountInstallingMaps();
                 });
+                mapNum++;
             }
 
             for (var i = 0; i < AvailableMapsBox.Items.Count; i++)
@@ -524,6 +615,11 @@ namespace Mordhau_Map_Installer
                                 m.suggestedPlayers = lines[MapVars.suggestedPlayers];
                             if (lines.Length > MapVars.thumbnailURL)
                                 m.thumbnailURL = lines[MapVars.thumbnailURL];
+                            if (lines.Length > MapVars.downloadURL && lines[MapVars.downloadURL].Length > 0)
+                                m.downloadURL = GetDownloadLink(lines[MapVars.downloadURL]);
+                            else
+                                m.downloadURL =
+                                    $@"https://github.com/MordhauMappingModding/MapFiles/blob/master/{m.folderName}.zip?raw=true";
                             //Log("Adding map " + m.name);
                             Map.installed.Add(m);
                         }
@@ -555,20 +651,31 @@ namespace Mordhau_Map_Installer
                 foreach (Map m in Map.installed)
                 {
                     m.name = m.name.Replace("[OUTDATED] ", "");
-                }
-
-                foreach (Map m in Map.maps)
-                {
-                    foreach (Map y in Map.installed.Where(z =>
-                        z.folderName.Equals(m.folderName) && !z.version.Equals(m.version)))
+                    // While we're here, let's go ahead and remove any maps that are installed already
+                    // I guess we'll move the updated/outdated logic here too
+                    foreach (Map m2 in Map.maps)
                     {
-                        y.name = $"[OUTDATED] {y.name}";
-                        m.name = $"[UPDATED] {m.name}";
+                        if (m2.folderName.Equals(m.folderName))
+                        {
+                            if (!m2.version.Equals(m.version))
+                            {
+                                m.name = $"[OUTDATED] {m.name}";
+                                m2.name = $"[UPDATED] {m2.name}";
+                            }
+                            else
+                            {
+                                Map.maps.Remove(m2);
+                            }
+
+                            break;
+                        }
                     }
                 }
 
-                AvailableMapsBox.Refresh();
-                InstalledMapsBox.Refresh();
+                AvailableMapsBox.DataSource = Map.maps;
+                AvailableMapsBox.DisplayMember = "name";
+                //AvailableMapsBox.Refresh();
+                //InstalledMapsBox.Refresh();
             }
             catch (Exception e)
             {
@@ -578,22 +685,45 @@ namespace Mordhau_Map_Installer
             }
         }
 
+        private void SetProgressText(string s)
+        {
+            using (Graphics gr = progressBar1.CreateGraphics())
+            {
+                gr.DrawString(s, Font, new SolidBrush(ForeColor),
+                    new PointF(Width / 2 - (gr.MeasureString(s, Font).Width / 2.0F),
+                        Height / 2 - (gr.MeasureString(s, Font).Height / 2.0F)));
+            }
+        }
+
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CheckForUpdates(true);
         }
 
-        private async Task InstallMap(Map m)
+        private void InstallMap(Map m)
         {
             try
             {
+                Invoke((MethodInvoker) delegate { progressBar1.CustomText = Properties.Resources.str_Beginning_install_for + m.name; });
+                // Let's pass in a map number to each of these
+                // And it will loop and wait until mapnum-numMapsInstalled < maxSimultaneousMapDownloads
+                // So map 11 waits until at least 1 map is installed, map 8 doesn't wait, etc
+                /*
+                Log($"Installing {m.name} as mapNum {m.installNumber}");
+                while (m.installNumber - maxSimultaneousMapDownloads >= numMapsInstalled)
+                {
+                    Thread.Sleep(100);
+                }
+                */
+                // This didn't fix 2cool's problem so let's not complicate it
+
                 Log(Properties.Resources.str_Downloading_name_as_folderName_zip + $" {m.folderName}.zip");
                 // https://github.com/MordhauMappingModding/MapFiles/blob/master/BerzerkerArena.zip
                 // This fucking api can't handle downloading zip files so I have to do it by hand and hope we don't ratelimit
                 using (var wc = new WebClient())
                 {
                     wc.DownloadFile(
-                        $@"https://github.com/MordhauMappingModding/MapFiles/blob/master/{m.folderName}.zip?raw=true",
+                        m.downloadURL,
                         $@"{s_ApplicationDataPath}\MordhauMapInstaller\Info\{m.folderName}.zip");
                 }
 
@@ -610,15 +740,27 @@ namespace Mordhau_Map_Installer
                 File.Copy($@"{s_InfoFiles}{s_InfoFilesFolder}\{m.folderName}.info.txt",
                     $@"{m_MordhauPath}{m.folderName}\{m.folderName}.info.txt", true);
                 Log(Properties.Resources.str_Successfully_installed_name + m.name);
+                Invoke((MethodInvoker) delegate
+                {
+                    progressBar1.CustomText = Properties.Resources.str_Successfully_installed_name + m.name;
+                });
             }
             catch (Exception e)
             {
+                if (e.InnerException != null)
+                {
+                    Log(e.InnerException.StackTrace);
+                    Log(e.InnerException.Message);
+                }
+                Log(e.StackTrace);
                 Log(Properties.Resources.str_Failed_during_installation_Message + e.Message);
+                numFailedMaps++;
             }
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
+            int numMaps = InstalledMapsBox.CheckedItems.Count;
             foreach (Map m in InstalledMapsBox.CheckedItems)
             {
                 try
@@ -641,11 +783,15 @@ namespace Mordhau_Map_Installer
                 {
                     Log($"Error while deleting {m.name}: {ex.Message}\n{ex.StackTrace}");
                 }
+                
             }
             for (var i = 0; i < InstalledMapsBox.Items.Count; i++)
                 InstalledMapsBox.SetItemChecked(i, false);
             RemoveButton.Enabled = false;
             UpdateInstalledMaps();
+            CheckContents();
+            CheckMapUpdates();
+            Log($"{numMaps} maps removed");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -694,5 +840,6 @@ namespace Mordhau_Map_Installer
         public static int fileSize = 6;
         public static int suggestedPlayers = 7;
         public static int thumbnailURL = 8;
+        public static int downloadURL = 9;
     }
 }

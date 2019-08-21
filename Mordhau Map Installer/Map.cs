@@ -18,5 +18,8 @@ namespace Mordhau_Map_Installer
         public string suggestedPlayers = "";
         public bool needsUpdate = false;
         public string thumbnailURL = "";
+        public string downloadURL = "";
+
+        public int installNumber = 0;
     }
 }

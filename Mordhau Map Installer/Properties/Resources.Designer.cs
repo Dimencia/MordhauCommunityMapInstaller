@@ -61,6 +61,15 @@ namespace Mordhau_Map_Installer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AIzaSyBWnzD_EO6ZVrj4w5gzjwUNWG83FFexYRc.
+        /// </summary>
+        internal static string google_api_key {
+            get {
+                return ResourceManager.GetString("google_api_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string str_About {
@@ -259,7 +268,7 @@ namespace Mordhau_Map_Installer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GameModes/Description.
+        ///   Looks up a localized string similar to Filenames/Description.
         /// </summary>
         internal static string str_GameModes_Description {
             get {
@@ -529,7 +538,7 @@ namespace Mordhau_Map_Installer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully deleted.
+        ///   Looks up a localized string similar to Successfully deleted .
         /// </summary>
         internal static string str_Successfully_deleted_name {
             get {
@@ -538,7 +547,7 @@ namespace Mordhau_Map_Installer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully installed.
+        ///   Looks up a localized string similar to Successfully installed .
         /// </summary>
         internal static string str_Successfully_installed_name {
             get {
