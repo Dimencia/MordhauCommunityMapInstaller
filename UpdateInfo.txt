@@ -2,4 +2,4 @@
 https://github.com/Dimencia/MordhauCommunityMapInstaller
 MCMI1.1.0.4.exe
 true
-Allows download of large maps\nNo longer displays maps you already have installed as 'Available'\nAdded progress bar when downloading maps\n\nThis is marked as an Important update and will repeatedly prompt you to update, since you must update in order to be able to download and use our larger maps
+Allows download of large maps; No longer displays maps you already have installed as 'Available'; Added progress bar when downloading maps; This is marked as an Important update and will repeatedly prompt you to update, since you must update in order to be able to download and use our larger maps
