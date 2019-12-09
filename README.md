@@ -1,3 +1,9 @@
+# THIS PROJECT HAS BEEN DISCONTINUED
+Mordhau now supports in-game auto-download of maps when joining a server - the repository of maps to download is no longer maintained and this is largely useless now.  You should be able to join any server and automatically download its maps (unless it has custom private maps).  Server owners, visit Mod.io and subscribe to the maps/mods you wish to host, then link your mod.io account to your server in the config file.
+
+
+
+
 # MordhauCommunityMapInstaller
 ![Screenshot](https://imgur.com/nZaFaAu.png)
 
